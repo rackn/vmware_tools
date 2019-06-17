@@ -6,7 +6,10 @@ python:
 
 install:
   - pip install -r test-requires.txt
+  # Install Self
+  - pip install -e .
 
 script:
+  - flake8
   - pytest -v -l
 

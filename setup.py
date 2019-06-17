@@ -1,11 +1,15 @@
 from setuptools import setup
+from setuptools import find_packages
 
 setup(
     name='drpy',
     version='0.1',
-    packages=['api', 'fsm', 'fsm.states', 'models'],
+
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
+
     url='https://github.com/rackn',
-    license='Commercial',
+    license='proprietary',
     author='RackN',
     author_email='eng@rackn.com',
     description='Digital Rebar Python'

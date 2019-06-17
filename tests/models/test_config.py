@@ -35,4 +35,3 @@ def test_member_access():
     assert c.endpoint == "foo"
     assert c.token == "bar"
     assert c.machine_uuid == "baz"
-

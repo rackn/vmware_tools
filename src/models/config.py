@@ -7,5 +7,3 @@ Config.__new__.__defaults__ = (None, None, None)
 
 class ConfigException(Exception):
     """A config error has occurred."""
-
-
