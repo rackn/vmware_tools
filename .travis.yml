@@ -11,5 +11,5 @@ install:
 
 script:
   - flake8
-  - pytest -v -l --cov=drpy tests/
+  - pytest -v -l --cov tests/
 
