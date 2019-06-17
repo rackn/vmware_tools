@@ -1,0 +1,12 @@
+dist: xenial                                                                                                                           
+language: python
+python:
+  - "3.5"
+  - "3.7"
+
+install:
+  - pip install -r test-requires.txt
+
+script:
+  - pytest -v -l
+
