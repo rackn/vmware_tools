@@ -1,6 +1,11 @@
+import os
 import uuid
 
+import pytest
+
 from models.config import Config
+from models.config import ConfigException
+from models.config import parse
 
 
 def test_asdict():
@@ -35,3 +40,18 @@ def test_member_access():
     assert c.endpoint == "foo"
     assert c.token == "bar"
     assert c.machine_uuid == "baz"
+
+
+def test_parse_raises_exception_for_bad_file():
+    with pytest.raises(ConfigException) as ex:
+        parse("badfile")
+
+    assert ex.value.args[0] == 'Unable to read badfile'
+
+
+def test_parse_rasies_ex_for_missing_section():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    conf_file = dir_path + "/../fixtures/bad_conf.conf"
+    with pytest.raises(ConfigException) as ex:
+        parse(conf_file)
+    assert ex.value.args[0] == '{} missing [Config] section.'.format(conf_file)
