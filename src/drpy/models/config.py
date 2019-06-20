@@ -1,7 +1,7 @@
 import configparser
 from collections import namedtuple
 
-from cli.cli import verify_conf_file
+from drpy.cli.cli import verify_conf_file
 
 
 # Config element types: [endpoint: str, token: str, machine_uuid: uuid.UUID]

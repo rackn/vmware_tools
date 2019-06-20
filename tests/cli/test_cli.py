@@ -1,5 +1,5 @@
 import os
-from cli.cli import build_arg_parser, verify_conf_file
+from drpy.cli.cli import build_arg_parser, verify_conf_file
 
 
 def test_short_arg():

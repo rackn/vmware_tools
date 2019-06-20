@@ -3,7 +3,7 @@ import json
 import ssl
 import urllib.request
 
-from api import __version__
+from drpy.api import __version__
 
 
 class Client:

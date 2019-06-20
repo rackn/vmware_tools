@@ -1,7 +1,7 @@
 import json
 import os
 
-from models.machine import Machine
+from drpy.models.machine import Machine
 
 
 def test_json_to_machine():

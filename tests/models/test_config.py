@@ -3,9 +3,9 @@ import uuid
 
 import pytest
 
-from models.config import Config
-from models.config import ConfigException
-from models.config import parse
+from drpy.models.config import Config
+from drpy.models.config import ConfigException
+from drpy.models.config import parse
 
 
 def test_asdict():

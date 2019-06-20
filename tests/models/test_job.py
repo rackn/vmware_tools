@@ -1,7 +1,7 @@
 import json
 import os
 
-from models.job import Job
+from drpy.models.job import Job
 
 
 def test_json_to_job():
