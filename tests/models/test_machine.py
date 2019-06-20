@@ -13,4 +13,3 @@ def test_json_to_machine():
     m = Machine(**json_data)
     assert m.Name == "dd0-67-e5-4d-b2-3f.mrice.internal"
     assert isinstance(m.Meta, dict)
-    
