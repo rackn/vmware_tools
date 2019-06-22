@@ -1,4 +1,4 @@
-class Namespace:
+class Namespace(dict):
 
     def __init__(self, **kwargs) -> None:
         """
@@ -7,3 +7,9 @@ class Namespace:
         """
         for attr in self.attrs:
             setattr(self, attr, kwargs.get(attr))
+
+    def __repr__(self):
+        return str(self.__dict__)
+
+    def __str__(self):
+        return self.__class__.__name__
