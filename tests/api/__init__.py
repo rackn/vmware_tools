@@ -12,4 +12,3 @@ my_vcr = vcr.VCR(
     record_mode='once',
     cassette_library_dir=fixture_path('../fixtures/api')
 )
-

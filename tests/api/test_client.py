@@ -37,7 +37,8 @@ def test_patch_machine_runnable_field():
     m_tmp = copy.deepcopy(m)
     m_tmp.Runnable = True
     m_patch = jsonpatch.make_patch(m.__dict__, m_tmp.__dict__)
-    m1obj = client.patch(resource="machines/6d109287-dffa-4344-a727-2b17970ca210",
-                         payload=m_patch.to_string())
+    m1obj = client.patch(
+        resource="machines/6d109287-dffa-4344-a727-2b17970ca210",
+        payload=m_patch.to_string())
     m1 = Machine(**m1obj)
     assert m1 == m_tmp
