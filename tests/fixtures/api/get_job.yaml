@@ -1,52 +1,32 @@
-{
-    "interactions": [
-        {
-            "response": {
-                "status": {
-                    "message": "OK",
-                    "code": 200
-                },
-                "headers": {
-                    "Content-Type": [
-                        "application/json; charset=utf-8"
-                    ],
-                    "Date": [
-                        "Sun, 23 Jun 2019 16:40:38 GMT"
-                    ],
-                    "Content-Length": [
-                        "573"
-                    ],
-                    "Connection": [
-                        "close"
-                    ]
-                },
-                "body": {
-                    "string": "{\"Validated\":true,\"Available\":true,\"Errors\":[],\"ReadOnly\":false,\"Meta\":{},\"Endpoint\":\"\",\"Bundle\":\"BackingStore\",\"Uuid\":\"00d6b39e-3e1d-4836-b697-79054f9d6ff4\",\"Previous\":\"663ae32b-6272-4bdf-b9fe-05ce9a67b0ca\",\"Machine\":\"24beda27-9118-4ebb-9dd6-af5f94bf6ed7\",\"Task\":\"stage:awesomeProject-motd-set\",\"Stage\":\"awesomeProject-motd-set\",\"State\":\"finished\",\"ExitState\":\"complete\",\"StartTime\":\"2019-05-21T02:11:27.256996199Z\",\"EndTime\":\"2019-05-21T02:11:27.256996409Z\",\"Archived\":false,\"Current\":false,\"CurrentIndex\":8,\"NextIndex\":9,\"Workflow\":\"ubuntu-base-clone\",\"BootEnv\":\"local\"}"
-                }
-            },
-            "request": {
-                "headers": {
-                    "Accept": [
-                        "application/json"
-                    ],
-                    "Authorization": [
-                        "Basic cm9ja2V0c2thdGVzOnBhc3N0aGlz"
-                    ],
-                    "User-Agent": [
-                        "drpy v0.1 (https://github.com/rackn/drpy)"
-                    ],
-                    "Host": [
-                        "192.168.1.53:8092"
-                    ],
-                    "Connection": [
-                        "close"
-                    ]
-                },
-                "method": "GET",
-                "body": null,
-                "uri": "https://192.168.1.53:8092/api/v3/jobs/00d6b39e-3e1d-4836-b697-79054f9d6ff4"
-            }
-        }
-    ],
-    "version": 1
-}
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Basic cm9ja2V0c2thdGVzOnBhc3N0aGlz
+      Connection:
+      - close
+      Host:
+      - 192.168.1.53:8092
+      User-Agent:
+      - drpy v0.1 (https://github.com/rackn/drpy)
+    method: GET
+    uri: https://192.168.1.53:8092/api/v3/jobs/00d6b39e-3e1d-4836-b697-79054f9d6ff4
+  response:
+    body:
+      string: '{"Validated":true,"Available":true,"Errors":[],"ReadOnly":false,"Meta":{},"Endpoint":"","Bundle":"BackingStore","Uuid":"00d6b39e-3e1d-4836-b697-79054f9d6ff4","Previous":"663ae32b-6272-4bdf-b9fe-05ce9a67b0ca","Machine":"24beda27-9118-4ebb-9dd6-af5f94bf6ed7","Task":"stage:awesomeProject-motd-set","Stage":"awesomeProject-motd-set","State":"finished","ExitState":"complete","StartTime":"2019-05-21T02:11:27.256996199Z","EndTime":"2019-05-21T02:11:27.256996409Z","Archived":false,"Current":false,"CurrentIndex":8,"NextIndex":9,"Workflow":"ubuntu-base-clone","BootEnv":"local"}'
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '573'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 24 Jun 2019 11:57:33 GMT
+    status:
+      code: 200
+      message: OK
+version: 1

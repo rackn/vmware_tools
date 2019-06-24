@@ -8,7 +8,7 @@ def fixture_path(local_path=None):
 
 
 my_vcr = vcr.VCR(
-    serializer='json',
+    serializer='yaml',
     record_mode='once',
     cassette_library_dir=fixture_path('../fixtures/api')
 )
