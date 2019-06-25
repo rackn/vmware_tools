@@ -71,21 +71,21 @@ interactions:
         KB","CoreID":2,"Cores":4,"FPU":true,"Family":6,"Flags":["fpu","vme","de","pse","tsc","msr","pae","mce","cx8","apic","sep","mtrr","pge","mca","cmov","pat","pse36","clflush","dts","acpi","mmx","fxsr","sse","sse2","ss","ht","tm","pbe","syscall","nx","rdtscp","lm","constant_tsc","arch_perfmon","pebs","bts","rep_good","nopl","xtopology","nonstop_tsc","aperfmperf","eagerfpu","pni","pclmulqdq","dtes64","monitor","ds_cpl","vmx","smx","est","tm2","ssse3","cx16","xtpr","pdcm","pcid","sse4_1","sse4_2","x2apic","popcnt","tsc_deadline_timer","aes","xsave","avx","lahf_lm","epb","tpr_shadow","vnmi","flexpriority","ept","vpid","xsaveopt","dtherm","ida","arat","pln","pts"],"ID":6,"Microcode":41,"Model":"Intel(R)
         Core(TM) i7-2760QM CPU @ 2.40GHz","ModelCode":42,"PhysID":0,"Sibligs":8,"Speed":"2581.201","Stepping":7,"Vendor":"GenuineIntel","WriteProtect":true},{"AddressSizes":{"Physical":36,"Virtual":48},"Bugs":null,"CacheAlignment":64,"CacheSize":"6144
         KB","CoreID":3,"Cores":4,"FPU":true,"Family":6,"Flags":["fpu","vme","de","pse","tsc","msr","pae","mce","cx8","apic","sep","mtrr","pge","mca","cmov","pat","pse36","clflush","dts","acpi","mmx","fxsr","sse","sse2","ss","ht","tm","pbe","syscall","nx","rdtscp","lm","constant_tsc","arch_perfmon","pebs","bts","rep_good","nopl","xtopology","nonstop_tsc","aperfmperf","eagerfpu","pni","pclmulqdq","dtes64","monitor","ds_cpl","vmx","smx","est","tm2","ssse3","cx16","xtpr","pdcm","pcid","sse4_1","sse4_2","x2apic","popcnt","tsc_deadline_timer","aes","xsave","avx","lahf_lm","epb","tpr_shadow","vnmi","flexpriority","ept","vpid","xsaveopt","dtherm","ida","arat","pln","pts"],"ID":7,"Microcode":41,"Model":"Intel(R)
-        Core(TM) i7-2760QM CPU @ 2.40GHz","ModelCode":42,"PhysID":0,"Sibligs":8,"Speed":"2599.951","Stepping":7,"Vendor":"GenuineIntel","WriteProtect":true}]}},"last-boot-macaddr":"01-d0-67-e5-4d-b2-3f"},"Tasks":["stage:ubuntu-18.04-install","bootenv:ubuntu-18.04-install","ubuntu-drp-only-repos","ssh-access","stage:runner-service","drpcli-install","stage:awesomeProject-motd","awesomeProject-motd-set","stage:colordemo-set","colordemo-setter","stage:finish-install","bootenv:local","stage:complete"],"CurrentTask":13,"Runnable":true,"Secret":"-KAvlP1NWtI4Lem9","OS":"ubuntu-18.04","HardwareAddrs":["d0:67:e5:4d:b2:3f"],"Workflow":"ubuntu-base-clone","Arch":"amd64"}'
+        Core(TM) i7-2760QM CPU @ 2.40GHz","ModelCode":42,"PhysID":0,"Sibligs":8,"Speed":"2599.951","Stepping":7,"Vendor":"GenuineIntel","WriteProtect":true}]}},"last-boot-macaddr":"01-d0-67-e5-4d-b2-3f"},"Tasks":["stage:ubuntu-18.04-install","bootenv:ubuntu-18.04-install","ubuntu-drp-only-repos","ssh-access","stage:runner-service","drpcli-install","stage:awesomeProject-motd","awesomeProject-motd-set","stage:colordemo-set","colordemo-setter","stage:finish-install","bootenv:local","stage:complete"],"CurrentTask":13,"Runnable":false,"Secret":"-KAvlP1NWtI4Lem9","OS":"ubuntu-18.04","HardwareAddrs":["d0:67:e5:4d:b2:3f"],"Workflow":"ubuntu-base-clone","Arch":"amd64"}'
     headers:
       Connection:
       - close
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 24 Jun 2019 11:57:33 GMT
+      - Tue, 25 Jun 2019 01:44:23 GMT
       Transfer-Encoding:
       - chunked
     status:
       code: 200
       message: OK
 - request:
-    body: '[]'
+    body: '[{"op": "replace", "path": "/Runnable", "value": true}]'
     headers:
       Accept:
       - application/json
@@ -94,7 +94,7 @@ interactions:
       Connection:
       - close
       Content-Length:
-      - '2'
+      - '55'
       Content-Type:
       - application/json; charset=utf-8
       Host:
@@ -167,7 +167,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 24 Jun 2019 11:57:33 GMT
+      - Tue, 25 Jun 2019 01:44:23 GMT
       Transfer-Encoding:
       - chunked
     status:
