@@ -140,3 +140,31 @@ class Client:
         data = res.read().decode('utf-8')
         json_obj = json.loads(data)
         return json_obj
+
+    def post_job(self, payload=None):
+        """
+        Post an empty job to the drp api
+        to get a new job.
+
+        :type payload: dict
+        :param payload: Python dict containing a models.job.Job
+                        with a machine uuid set.
+        :return:
+        """
+        resource = self.endpoint + "/jobs"
+        if payload is None:
+            raise ValueError("payload can not be None type.")
+        payload = json.dumps(payload)
+        jsonbytes = payload.encode('utf-8')
+        headers = self.headers
+        headers.update({"Content-Type": "application/json; charset=utf-8"})
+        r = urllib.request.Request(resource, data=jsonbytes, headers=headers,
+                                   method="POST")
+        try:
+            res = urllib.request.urlopen(r, context=self.context)
+            data = res.read().decode('utf-8')
+            json_obj = json.loads(data)
+            return json_obj
+        except urllib.error.HTTPError as res:
+            return {'Error': res.code}
+            pass

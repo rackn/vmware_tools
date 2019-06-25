@@ -1,0 +1,40 @@
+interactions:
+- request:
+    body: '{"Bundle": null, "NextIndex": null, "Stage": null, "Archived": null, "Task":
+      null, "ReadOnly": null, "Errors": null, "EndTime": null, "Meta": null, "Previous":
+      null, "Validated": null, "ExitState": null, "Workflow": null, "Current": null,
+      "BootEnv": null, "Uuid": null, "StartTime": null, "Machine": "f45fbc79-4081-4f27-86e4-bbf9d3757fd4",
+      "Available": null, "State": null, "CurrentIndex": null, "Endpoint": null}'
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Basic cm9ja2V0c2thdGVzOnBhc3N0aGlz
+      Connection:
+      - close
+      Content-Length:
+      - '413'
+      Content-Type:
+      - application/json; charset=utf-8
+      Host:
+      - 192.168.1.53:8092
+      User-Agent:
+      - drpy v0.1 (https://github.com/rackn/drpy)
+    method: POST
+    uri: https://192.168.1.53:8092/api/v3/jobs
+  response:
+    body:
+      string: '{"Validated":true,"Available":true,"Errors":[],"ReadOnly":false,"Meta":{},"Endpoint":"","Bundle":"","Uuid":"83dc3fd9-464f-49cc-b4b6-992a44509b04","Previous":"00000000-0000-0000-0000-000000000000","Machine":"f45fbc79-4081-4f27-86e4-bbf9d3757fd4","Task":"enforce-sledgehammer","Stage":"discover","State":"created","ExitState":"","StartTime":"2019-06-25T02:08:08.785426762Z","EndTime":"0001-01-01T00:00:00Z","Archived":false,"Current":true,"CurrentIndex":2,"NextIndex":3,"Workflow":"discover-base","BootEnv":"sledgehammer"}'
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '520'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 25 Jun 2019 02:08:08 GMT
+    status:
+      code: 201
+      message: Created
+version: 1

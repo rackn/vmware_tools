@@ -1,0 +1,42 @@
+interactions:
+- request:
+    body: '{"StartTime": null, "ReadOnly": null, "CurrentIndex": null, "Workflow":
+      null, "EndTime": null, "Task": null, "Uuid": null, "Previous": null, "Errors":
+      null, "BootEnv": null, "ExitState": null, "Machine": "e5bae439-d306-4dcc-9b78-32a0cbc231be",
+      "Current": null, "State": null, "Available": null, "Bundle": null, "Validated":
+      null, "Meta": null, "NextIndex": null, "Endpoint": null, "Archived": null, "Stage":
+      null}'
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Basic cm9ja2V0c2thdGVzOnBhc3N0aGlz
+      Connection:
+      - close
+      Content-Length:
+      - '413'
+      Content-Type:
+      - application/json; charset=utf-8
+      Host:
+      - 192.168.1.53:8092
+      User-Agent:
+      - drpy v0.1 (https://github.com/rackn/drpy)
+    method: POST
+    uri: https://192.168.1.53:8092/api/v3/jobs
+  response:
+    body:
+      string: '{"Model":"","Key":"","Type":"Conflict","Messages":["Machine e5bae439-d306-4dcc-9b78-32a0cbc231be
+        is not runnable"],"Code":409}'
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '126'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 25 Jun 2019 01:34:36 GMT
+    status:
+      code: 409
+      message: Conflict
+version: 1
