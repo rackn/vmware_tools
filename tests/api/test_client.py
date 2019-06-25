@@ -5,7 +5,7 @@ import jsonpatch
 from tests.api import my_vcr
 
 from drpy.models.machine import Machine
-from drpy.models.job import Job
+from drpy.models.job import Job, JobAction
 
 
 @my_vcr.use_cassette('get_machine.yaml')
@@ -59,3 +59,14 @@ def test_post_job_success(setup_client):
     job_obj = client.post_job(j.__dict__)
     j2 = Job(**job_obj)
     assert j.Machine == j2.Machine
+
+
+@my_vcr.use_cassette("get_job_actions.yaml")
+def test_get_job_actions(setup_client):
+    client = setup_client
+    actions = client.get(
+        resource="jobs/83dc3fd9-464f-49cc-b4b6-992a44509b04/actions"
+    )
+    assert len(actions) == 1
+    ja = JobAction(**actions[0])
+    assert ja.Name == "enforce-sledgehammer"

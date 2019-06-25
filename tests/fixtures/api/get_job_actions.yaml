@@ -1,0 +1,64 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Basic cm9ja2V0c2thdGVzOnBhc3N0aGlz
+      Connection:
+      - close
+      Host:
+      - 192.168.1.53:8092
+      User-Agent:
+      - drpy v0.1 (https://github.com/rackn/drpy)
+    method: GET
+    uri: https://192.168.1.53:8092/api/v3/jobs/83dc3fd9-464f-49cc-b4b6-992a44509b04/actions
+  response:
+    body:
+      string: '[{"Name":"enforce-sledgehammer","Path":"","Content":"#!/usr/bin/env
+        bash\n\n#!/usr/local/bin/env bash\n# Helper to setup DRP tasks for other templates\n#\n###\n#  This
+        is a BASH script snippet intended to be run inside other BASH templates.\n#\n#  Simple
+        helper to prep a system with DRPCLI and JQ.  If not already installed,\n#  download
+        and install the `drpcli` and `jq` binaries in /usr/local/bin and then\n#  source
+        our `helper` tools\n#\n#  To use this in other templates, simply specify:\n#\n#         \\{\\{template
+        \"setup.tmpl\" .\\}\\}\n#\n#  without the backslashes.\n###\n\nset -e\n\nfunction
+        xiterr() { [[ $1 =~ ^[0-9]+$ ]] \u0026\u0026 { XIT=$1; shift; } || XIT=1;
+        echo \"FATAL: $*\";  __exit $XIT; }\n\n###\n#  if we want debugging of our
+        scripts, set the Param to true\n#  also set shell variable for script reuse
+        if desired for further\n#  debugging\n###\n\n\n\n\n# We pretty much always
+        need these parameters set, but\n# don''t overwrite them if they already exist.\n[[
+        $RS_TOKEN ]] || export RS_TOKEN=\"gvBvDQ68BNALruygleB3CwTeWQLBFc5HgmM_b2XjE4bmkgKfhsBfT46uPo6H9yPafFBShGyo01qXpyamZbVhrO1apXRcwYow56nEsq67lqoNoqPO_K6-KTnNBwKFkI9ngcUItzFhUHhiMPQVep73OpybenIBfe86Eo5tAQTeLuYlyLZrBfHaU3o_yPvXcWHig49aK_TOtiK5P7GTUYEj9monp_sFKbjpIyF0OV8bInsBhIxN68ZLdW5UZoAITFhXj-8bvFMGM9Sg2Ub2L-KT9m5CJG9JbBY71_bL-bnOpF_xUlsp7ouA5quQC0zGNGOVlmUTpnRYdKfWSEBYYAC0Jux6d3IoXkpLlEUpnujo3toyW5lh9gyALqxrrK3f_EfJ-oPy5HdrSBA0px0oRiP8KlrfL-FAmorOIjd00VztcdpQf9WNFPaN-eUiaaDNiv4QPVK1wo5UPUcolpz5HAIJKrzD7D_biAqR7i3wgkePmCfN2VzGrxO0hmX7nqei8lEOqBtHLOhS-xBLnKpUCdJyCwFgqjf6l-NNZNMbPsrj3lnOWtkayXRdvrMf8vuwmEnVce3Tb5XMfKoDbew_Ry-0kSHz1smbEjYvtHvmOnQrDIPLJKLF6YbmYRUiG5Dny0zXD-7zdw0XI7Rd5-8TO_KpG_jIxa626eem0XsYvu2PXF4jZLbA37m3j1UBb3BpNYs-BJQU-uL4VOpmjnxBlsF975QAejH-_Ik4QVT7yF-WrhZhnIfkguCVKbVf4pPcfDvRXe3yrUhvgXCJdruachvlpN3Wc1Wh1_o2k_SLeE-RVChKrcOxUimZSGwbmDBccqgUwDmqWd0JVy2THha-aka5ftrtHYi43kJyc3U-x4TUYaNWuZEA-1H07OwTkCgzb-3lzW3N0YIMboUdsbRquNt-68byDnBnvra7uDyH6xKgaKBeq3_y0hdyNw2fuH0Yg7F4CJDLiw5WuB16lnWe9yX1MhcmhKu2KFYuOOUJIEd4Zfo3M0Yc4g7xEwsWZjvGw9T55A3wiZJdT2DExD34pAdmIemTLt8P0PBP0UKNk7tdPDDWdRkZgvkZkXVbkKyfHTD88qsj_mc1evHkIdCJ8snDMHh0F7v_C3GOx_uidcS2Vji1Yat5JjQcLUdt5FPNP6lL2cYBRswMDnMN58ZVdJ6yZ6cZvIrjaPg14Rjh5emBoZKv9xWDoul8UJvrxsELb_OUTcq_yft3zcnNbr0afqCRzhSgetPCKcSEC-5wiC48HRGaKUjqLdNmvnxN7pmbqlstn6G7dXM-sNrDJfmBUZYmt2j36IsXwlEYgBYULUhjP5jWL5IoGrWEo24TXZP737ohC4YuL4G9E6sG8hH11H1y_8kLXsFN__Ya626SYQg2p9NPyFd6dWkiIUvkKrrx5wUMjuXyS13DwryPipodaqYkX5NqLAvSDjn3zJ8OWX4uFxQH7xSSAaMFj23lHQ2Ca2gssJhVdRgkNnF_89_dB7E_bl5r8sIyjgejaqz9mTgaQAmWLNZ1fu5qlgw_A8H6ECDVgvvVq-kM1b3GRMCAlenYvU7reEP44pZ4xAKOcUoifTs4BjYAbo7jqWNYzNygwnnUtRvivWbWIdRJCwEgmUFGEXu-EeFHYVIPSE-ZrqRGl1thaKzGYPM1ASjYdNRd7LiHIZzRFB0grHrnfon5dM7viUY7sUYAnAQMltkZxj4X-BARm3wKicQXP021iNf4Zrqp6OvRzMHPHrYXFbWNUiBnHjDPO2HTpW8sdaW2SAzTMldDqPSyBBqXSuCEN81-ud404DKxsiXw2StFlEGds_sLa1Tg_rRBl1xgP42SY_CrA89M2Tk6yFhy25xlqhkHYEsHUE5UUhvZpQBxG183HZtV9f9OhsIx54KOdsiST6rd3xnrR12YLjH0eeHOnogDRIDeBa7N5iYF3FJKcQEe7cq3hC2DRu2VMaMbxqczeWkcTH6bsyg0HN-O2ZZcKgCbgDZ-0Ll6gFsGGiW9o8s3p6pgGFjZrh_4YCdKLoQotBrKVeMYmPa30UiHziGvhhNEYMRKlQ32d-D3TQsGg1urUdbTZNhZXYpEmo3HgVu-LYGzpWuJnRfPoQBV4ZGFzL0NZgm2OU_PHnSJAtMUIYdyQhaH09-nTQq2qFHy23vjiIaClfFpAFxYQJ2uzMpJ-7PmkyG_dfdGpHlcCOUeVEyAujTcwF0Iugl5mwyuHF60LOYSPrRr1qW7Fip5KqkZFB2FLZl-KoFRnEop-J_2bNF3DZE8VOxEneD-S-IK4hNjJ2jshf_kfqnS25eRkIPyP1yhXW23np8j_gcDjci3LWrzQHEIKsf1UXudd2QJ4ZmatOve9tWZmI-AguF-OKIfUloqsBVXUcvRWAd0QER0XEjssS6GtcDg5fv3C-bfiCOzaC9sIajVixiWqtdCtIiDbJsKPihg0MNBYIvI6aTZcBQLzw==\"\n[[
+        $RS_ENDPOINT ]] || export RS_ENDPOINT=\"https://10.0.0.1:8092\"\n[[ $RS_UUID
+        ]] || export RS_UUID=\"f45fbc79-4081-4f27-86e4-bbf9d3757fd4\"\n\nfunction
+        fixup_path() {\n  local _add_path\n  for _add_path in $(echo $* | sed ''s/[:,]/
+        /g'')\n  do\n    mkdir -p $_add_path\n    # inject colons to avoid partial
+        match failures\n    grep -q \":$_add_path\" \u003c\u003c\u003c \":$PATH:\"
+        || export PATH=\"$PATH:$_add_path\"\n  done\n}\n\nfixup_path /usr/local/bin
+        /usr/sbin /sbin /opt/bin\n\narch=$(uname -m)\ncase $arch in\n    x86_64|amd64)
+        arch=\"amd64\";;\n    arm64|aarch64) arch=\"arm64\";;\n    *)\n        xiterr
+        1 \"Unknown arch $(uname -m)\";;\nesac\n\nINSTALL_DIR=/usr/local/bin\nif grep
+        -q coreos /etc/os-release ; then\n  INSTALL_DIR=/opt/bin\nfi\nmkdir -p $INSTALL_DIR\n\n#
+        TODO: we need to make drpcli/jq grab smarter to be a little\n#       more
+        tolerant of OS arch/type - and grab the right one\nfor tool in drpcli jq;
+        do\n    which \"$tool\" \u0026\u003e/dev/null \u0026\u0026 continue\n    echo
+        \"Installing $tool in $INSTALL_DIR\"\n    case $tool in\n        drpcli) curl
+        -gsfLo \"$INSTALL_DIR/$tool\" \"http://10.0.0.1:8091/files/drpcli.$arch.linux\";;\n        jq)     curl
+        -gsfLo \"$INSTALL_DIR/$tool\" \"http://10.0.0.1:8091/files/jq\";;\n    esac\n    chmod
+        755 \"$INSTALL_DIR/$tool\"\ndone\nunset tool\nunset INSTALL_DIR\n\nif [[ -r
+        ./helper ]]; then\n    . ./helper\n    __sane_exit\nfi\n\n\necho \"Skipping
+        sledgehammer enforcement\"\ndrpcli machines update $RS_UUID ''{ \"OS\": \"centos-7\"
+        }'' 2\u003e/dev/null \u003e/dev/null\nexit 0\n","Meta":{}}]'
+    headers:
+      Connection:
+      - close
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 25 Jun 2019 17:50:22 GMT
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+version: 1
