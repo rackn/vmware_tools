@@ -27,3 +27,13 @@ class Job(Namespace):
         'Validated',
         'Workflow'
     ]
+
+
+class JobAction(Namespace):
+
+    attrs = [
+        'Content',
+        'Meta',
+        'Name',
+        'Path'
+    ]

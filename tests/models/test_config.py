@@ -1,4 +1,3 @@
-import os
 import uuid
 
 import pytest
@@ -49,9 +48,9 @@ def test_parse_raises_exception_for_bad_file():
     assert ex.value.args[0] == 'Unable to read badfile'
 
 
-def test_parse_rasies_ex_for_missing_section():
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    conf_file = dir_path + "/../fixtures/bad_conf.conf"
+def test_parse_rasies_ex_for_missing_section(get_dir_path):
+    dir_path = get_dir_path
+    conf_file = dir_path + "bad_conf.conf"
     with pytest.raises(ConfigException) as ex:
         parse(conf_file)
     assert ex.value.args[0] == '{} missing [Config] section.'.format(conf_file)

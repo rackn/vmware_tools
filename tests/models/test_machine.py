@@ -1,12 +1,11 @@
 import json
-import os
 
 from drpy.models.machine import Machine
 
 
-def test_json_to_machine():
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    json_file = dir_path + "/../fixtures/machine.json"
+def test_json_to_machine(get_dir_path):
+    dir_path = get_dir_path
+    json_file = dir_path + "machine.json"
     with open(json_file, "r") as jf:
         data = jf.read()
     json_data = json.loads(data)
