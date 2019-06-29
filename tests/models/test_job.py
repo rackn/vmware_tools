@@ -28,3 +28,4 @@ def test_json_to_job_action(get_dir_path):
 
     assert len(ja_list) == 1
     assert ja_list[0].Name == "enforce-sledgehammer"
+    assert ja_list[0].Path == ''
