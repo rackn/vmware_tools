@@ -4,6 +4,7 @@ import ssl
 import urllib.request
 
 from drpy.api import __version__
+from drpy.api import logger
 
 
 class Client:
@@ -162,6 +163,12 @@ class Client:
                                    method="POST")
         try:
             res = urllib.request.urlopen(r, context=self.context)
+            logger.debug("POST_JOB Response: {} {}".format(
+                res.status,
+                res.msg
+            ))
+            if res.status == 204:
+                return {}
             data = res.read().decode('utf-8')
             json_obj = json.loads(data)
             return json_obj

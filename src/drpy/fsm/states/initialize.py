@@ -47,11 +47,11 @@ class Initialize(BaseState):
 
     def _patch_machine(self, agent_state=None, machine_copy=None):
         m_patch = jsonpatch.make_patch(
-            machine_copy.__dict__,
-            agent_state.machine.__dict__
+            agent_state.machine.__dict__,
+            machine_copy.__dict__
         )
         machine_obj = agent_state.client.patch(
             resource="machines/{}".format(agent_state.machine.Uuid),
-            payload=m_patch.__dict__
+            payload=m_patch.to_string()
         )
         return Machine(**machine_obj)

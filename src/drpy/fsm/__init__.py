@@ -2,4 +2,4 @@ import logging
 
 
 logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger("fsm")
+logger = logging.getLogger("drpy")

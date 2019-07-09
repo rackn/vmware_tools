@@ -14,7 +14,7 @@ class RunTask(BaseState):
 
     def on_event(self, *args, **kwargs):
         agent_state = kwargs.get("agent_state")
-        if agent_state.machine.CurrentJob is None:
+        if agent_state.machine.CurrentJob is "":
             logger.debug("Creating a new job for {}-{}".format(
                 agent_state.machine.Name,
                 agent_state.machine.Uuid
@@ -31,6 +31,17 @@ class RunTask(BaseState):
             ))
             logger.debug("Loading copy of Job into agent_state")
             agent_state.job = self._get_job(agent_state=agent_state)
+            logger.debug("Current job state: {}".format(
+                agent_state.job.State
+            ))
+            if agent_state.job.State == "finished":
+                agent_state.job = self._create_job(agent_state=agent_state)
+                logger.debug("New Job contents: {}".format(
+                    agent_state.job.__dict__
+                ))
+                if agent_state.job.Uuid == "" or agent_state.job.Uuid is None:
+                    logger.debug("No more jobs to process.")
+                    return Exit(), agent_state
         if agent_state.job.State != "running":
             logger.debug("Setting job {} to state running from {}".format(
                 agent_state.job.Uuid,
@@ -56,8 +67,14 @@ class RunTask(BaseState):
         :rtype: Job
         :return: Job or Error
         """
+        logger.debug("Creating job for {}".format(
+            agent_state.machine.Uuid
+        ))
         job = Job()
         job.Machine = agent_state.machine.Uuid
+        logger.debug("POSTing {}".format(
+            job.__dict__
+        ))
         j_obj = agent_state.client.post_job(payload=job.__dict__)  # type: dict
         if "Error" in j_obj:
             # todo handle the error case
