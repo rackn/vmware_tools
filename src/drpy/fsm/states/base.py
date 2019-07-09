@@ -1,4 +1,5 @@
 import abc
+import subprocess
 
 from drpy.fsm import logger
 
@@ -10,7 +11,8 @@ class BaseState(abc.ABC):
         self.machine = machine
         logger.info("Processing current state {}".format(str(self)))
 
-    def on_event(self, event, *args, **kwargs):
+    @abc.abstractmethod
+    def on_event(self, *args, **kwargs):
         """
         Handle events that are passed to this state.
 
@@ -35,8 +37,22 @@ class BaseState(abc.ABC):
         """
         return self.__class__.__name__
 
+    @staticmethod
     def reboot(self):
         """
 
         :return:
         """
+        ret = subprocess.call("reboot")
+        if ret > 0:
+            return "Failed to reboot."
+
+    @staticmethod
+    def power_off(self):
+        ret = subprocess.call("poweroff")
+        if ret > 0:
+            return "Failed to poweroff"
+
+    @property
+    def state(self):
+        return self.__class__.__name__
