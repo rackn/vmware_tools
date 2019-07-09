@@ -14,7 +14,7 @@ class RunTask(BaseState):
 
     def on_event(self, *args, **kwargs):
         agent_state = kwargs.get("agent_state")
-        if agent_state.machine.CurrentJob is "":
+        if agent_state.machine.CurrentJob == "":
             logger.debug("Creating a new job for {}-{}".format(
                 agent_state.machine.Name,
                 agent_state.machine.Uuid
