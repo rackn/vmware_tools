@@ -7,7 +7,7 @@ from drpy.models.job import Job, JobAction
 from drpy.fsm.states.power import Exit
 from .base import BaseState
 
-from drpy.fsm import logger
+from drpy import logger
 
 
 class RunTask(BaseState):

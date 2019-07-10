@@ -6,7 +6,7 @@ from drpy.fsm.states.base import BaseState
 from drpy.fsm.states.runtask import RunTask
 from drpy.models.machine import Machine
 
-from drpy.fsm import logger
+from drpy import logger
 
 
 class Initialize(BaseState):

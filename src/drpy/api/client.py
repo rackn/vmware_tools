@@ -4,7 +4,7 @@ import ssl
 import urllib.request
 
 from drpy.api import __version__
-from drpy.api import logger
+from drpy import logger
 
 
 class Client:
