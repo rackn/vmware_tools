@@ -20,6 +20,8 @@ class RunTask(BaseState):
                 agent_state.machine.Uuid
             ))
             agent_state.job = self._create_job(agent_state=agent_state)
+            if agent_state.job.Uuid is None:
+                return Exit(), agent_state
             logger.debug("Successfully created job {}".format(
                 agent_state.job.Uuid
             ))
@@ -59,7 +61,7 @@ class RunTask(BaseState):
         logger.debug("Finished running Job Actions.")
         logger.debug("Setting Job State.")
         self._set_job_state(state="finished", agent_state=agent_state)
-        return Exit(), agent_state
+        return RunTask(), agent_state
 
     def _create_job(self, agent_state=None):
         """
