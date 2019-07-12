@@ -5,13 +5,15 @@ from drpy.models.runner import AgentState
 from drpy.fsm.states.initialize import Initialize
 
 
-def main(conf=None):
-    """
+def main():
+    parser = cli.build_arg_parser()
+    args = parser.parse_args()
+    conf_file = args.conf_file
+    if not cli.verify_conf_file(conf_file):
+        raise NotImplementedError
 
-    :type conf: Config
-    :param conf:
-    :return:
-    """
+    conf = config.parse(conf_file)
+
     drpclient = Client(
         endpoint=conf.endpoint,
         token=conf.token
@@ -23,14 +25,3 @@ def main(conf=None):
             agent_state=agent_state,
             machine_uuid=conf.machine_uuid
         )
-
-
-if __name__ == "__main__":
-    parser = cli.build_arg_parser()
-    args = parser.parse_args()
-    conf_file = args.conf_file
-    if not cli.verify_conf_file(conf_file):
-        raise NotImplementedError
-
-    conf = config.parse(conf_file)
-    main(conf=conf)
