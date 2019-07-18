@@ -19,7 +19,7 @@ def build_arg_parser():
     parser.add_argument(
         "-f",
         "--conf_file",
-        required=False,
+        required=True,
         action='store',
         help="Location of config file"
     )
