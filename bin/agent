@@ -25,3 +25,7 @@ def main():
             agent_state=agent_state,
             machine_uuid=conf.machine_uuid
         )
+
+
+if __name__ == "__main__":
+    main()

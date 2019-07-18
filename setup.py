@@ -24,7 +24,5 @@ setup(
     author_email='eng@rackn.com',
     install_requires=required,
     description='Digital Rebar Python',
-    entry_points={
-        'console_scripts': ["agent = drpy.agent:main"],
-    }
+    scripts=['bin/agent']
 )
