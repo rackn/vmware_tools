@@ -51,7 +51,7 @@ need to be placed on an ESXi server using a vib. This documentation will assume 
 Keeping this container around is optional so if you dont want to keep it dont use the -d, I find it helpful to keep it around because SSH keys
 but its easy enough to get the kes you want into the container..
 
-Now from inside the container you need to check out the firewall vib project, then add the contents of `/var/ranck/*` to the vib build dir
+Now from inside the container you need to check out the firewall vib project, then add the contents of `/var/rackn/*` to the vib build dir
 
 .. code-block::
 
