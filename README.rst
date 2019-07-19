@@ -87,3 +87,25 @@ I was only ever successfully able to install the vib from a VMFS volume
   ssh root@esxi
   esxcli software vib install -v /vmfs/volumes/datastore1/drpy-version.vib -f
 
+
+Once the install is complete you are ready to use the agent.
+
+
+.. code-block::
+
+  cd /opt/rackn/drpy
+  python agent -f ./some_config.conf
+
+
+You will need to create and provide `some_config.conf`
+
+
+Example Config File
+===================
+
+.. code-block::
+
+  [Config]
+  endpoint = https://api.drp.local:8092/
+  token = EdBk_k7R3S5Q5Prz6uxdahbFdjKQPG_GsWEv1SUfa1rnVy-BIYw6jJ5_qrQGpROfZuanTrqSf37kSOYXhVaMxzHV3RC5_7s9ysBUZRtTVJF2G72XqNDDqlbR9mVnjNxQEX8p1l8NoUZdQ6WbYAmlkDMEvZB22QfiybQNzy_-vceUdEyvsKEH1_Q2j4PIHzaYF-7ZlfqCOD3cIeeGZXQH2xhGTpOQyvidt2Z1Y2lKiAQyhuGLn0Tt119Ju9NSshkHwEhoLjCcM6L37yadMy8Q5EAiLmKra4FqIFE9VqxHJZWteYis1HyWs_0gTH7Arwi4pNovneSCN679SwUhz8OwSzLg9rtxeF2JDcIFDS7DgXZaKLV97wP8PFbn3yBU1VT38aWQvraUxnZYaO1kiCwBL24PC24mhXzsUk1I-8sJvlqOc18JfYymq7PbrMtwbAU1tzSLkQJWxGn5EA_9xo9wKW-_FjTQvlGukRQ7lCDhXD8Q2TGH33cpXEgvjfklQvtdrOKQ_sBU4WSht5dzUbjVs9NvNJJHyspwo3govV_4WrMUCrxjkNiC_rCBgtfw9uhmnkT35CTPVMU0MVKG3Mb2OfcI3Owwpdinuz_fipYsEuoyxXkPilUAc6VdJdFRX02oDfoBQS3FrmLkx0CcmPTuZ4r8SIPKn1tl7Za6Hpt3LCSlQlUc1-Iy6I_qUo5zBHGrySIYfWa3Y1Dkb2eV4Cadz0PnJmgbBTVFYDW0t8aLDoywOOsSUPLt6TlMfCcxHGhDdgJoVvbbaS7uymJjsjkHRYtJVlb0M3DJuVgntYjNRPxK7c5HqSD5SnyG2eVnpVH8-QLgPz_kOyJtW8Vl8nMP0zYEBpiitKgGx9e-JITzOo_-eKCJOUtO3dI=
+  machine_uuid = e1dec675-9f43-40d6-b501-e4e481d66378
