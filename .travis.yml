@@ -5,11 +5,13 @@ python:
   - "3.7"
 
 install:
+  - cd drpy
   - pip install -r test-requires.txt
   # Install Self
   - pip install -e .
 
 script:
+  - cd drpy
   - flake8
   - pytest -v -l --cov tests/
 
