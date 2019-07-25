@@ -27,6 +27,7 @@ after_success:
 - cp $TRAVIS_BUILD_DIR/firewall/stage/*.vib $TRAVIS_BUILD_DIR/vibs
 deploy:
   provider: s3
+  region: us-west-2
   skip_cleanup: true
   access_key_id: AKIAJF4QJY2A23DY6YTQ
   secret_access_key:
