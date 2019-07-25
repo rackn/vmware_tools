@@ -10,5 +10,5 @@ fi
 
 echo ${version}
 
-#sed -i s,##VERSION##,${version},g ${file}
+sed -i s,##VERSION##,${version},g ${file}
 
