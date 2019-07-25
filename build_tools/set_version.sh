@@ -2,10 +2,13 @@
 
 file=$1
 path=$(dirname $0)
-version=$(./${path}/version.sh|awk '{print $3}')
+source ${path}/version.sh
+
 if [[ ${#version} -gt 35 ]]; then
     version=${version:0:35}
 fi
 
-sed -i s,##VERSION##,${version},g ${file}
+echo ${version}
+
+#sed -i s,##VERSION##,${version},g ${file}
 
