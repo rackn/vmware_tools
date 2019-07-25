@@ -16,11 +16,11 @@ PatchV="${BASH_REMATCH[3]}"
 PRE="${BASH_REMATCH[4]%-}"
 AHEAD="${BASH_REMATCH[5]}"
 GITHASH="${BASH_REMATCH[6]}"
-if [[ ! ${PRE} && ${AHEAD} != 0 ]]; then
+if [[ ! $PRE && $AHEAD != 0 ]]; then
    PRE="dev"
    PatchV=$((PatchV + 1))
+else
+   PRE="0"
 fi
 [[ ${PRE} ]] && Extra="-${PRE}.${AHEAD}"
-#version="v${MajorV}.${MinorV}.${PatchV}${Extra}"
-version="v0.1.1-dev.1"
-return
+version="v${MajorV}.${MinorV}.${PatchV}${Extra}"
