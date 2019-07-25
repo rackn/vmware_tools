@@ -4,6 +4,9 @@ python:
   - "3.5.3"
   - "3.7"
 
+services:
+  - docker
+
 install:
   - cd drpy
   - pip install -r test-requires.txt
@@ -13,4 +16,13 @@ install:
 script:
   - flake8
   - pytest -v -l --cov tests/
+
+after_success:
+  - ./build.sh $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/opt/rackn/drpy
+  - docker pull lamw/vibauthor
+  - docker run -d --name=vibauthor -v $TRAVIS_BUILD_DIR/drpy/stage:/root/drpy/stage -v $TRAVIS_BUILD_DIR/firewall:/root/firewall lamw/vibauthor tail -f /dev/null
+  - docker exec -it vibauthor /bin/bash -c "cd drpy/ && vibauthor -C -t stage -f"
+  - ls -lah $TRAVIS_BUILD_DIR/drpy/stage
+  - docker exec -it vibauthor /bin/bash -c "cd firewall/ && vibauthor -C -t stage -f"
+  - ls -lah $TRAVIS_BUILD_DIR/firewall/stage
 
