@@ -1,10 +1,7 @@
 import copy
 
-import jsonpatch
-
 from drpy.fsm.states.base import BaseState
 from drpy.fsm.states.runtask import RunTask
-from drpy.models.machine import Machine
 
 from drpy import logger
 
@@ -36,22 +33,3 @@ class Initialize(BaseState):
 
     def _set_job_running(self, agent_state=None):
         pass
-
-    def _get_machine(self, agent_state=None, machine_uuid=None):
-        if machine_uuid is None:
-            machine_uuid = agent_state.machine.Uuid
-        machine_obj = agent_state.client.get(resource="machines/{}".format(
-            machine_uuid
-        ))
-        return Machine(**machine_obj)
-
-    def _patch_machine(self, agent_state=None, machine_copy=None):
-        m_patch = jsonpatch.make_patch(
-            agent_state.machine.__dict__,
-            machine_copy.__dict__
-        )
-        machine_obj = agent_state.client.patch(
-            resource="machines/{}".format(agent_state.machine.Uuid),
-            payload=m_patch.to_string()
-        )
-        return Machine(**machine_obj)

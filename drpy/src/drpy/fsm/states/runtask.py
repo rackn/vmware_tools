@@ -3,8 +3,9 @@ import copy
 import jsonpatch
 
 from drpy import action_runner
+from drpy.fsm.states.waitrunnable import WaitRunnable
 from drpy.models.job import Job, JobAction
-from drpy.fsm.states.power import Exit
+from drpy.fsm.states.power import Exit, Reboot, PowerOff
 from .base import BaseState
 
 from drpy import logger
@@ -57,11 +58,20 @@ class RunTask(BaseState):
             agent_state.job.Uuid
         ))
         job_actions = self._get_job_actions(agent_state=agent_state)
-        self._run_job_actions(agent_state=agent_state, actions=job_actions)
+        agent_state, action_results = self._run_job_actions(
+            agent_state=agent_state,
+            actions=job_actions
+        )
         logger.debug("Finished running Job Actions.")
         logger.debug("Setting Job State.")
-        self._set_job_state(state="finished", agent_state=agent_state)
-        return RunTask(), agent_state
+        agent_state = self._set_job_state(
+            state="finished",
+            agent_state=agent_state
+        )
+        return self._handle_state(
+            agent_state=agent_state,
+            action_results=action_results
+        )
 
     def _create_job(self, agent_state=None):
         """
@@ -127,43 +137,73 @@ class RunTask(BaseState):
         return job_actions
 
     def _run_job_actions(self, agent_state=None, actions=None):
-        results = []
         for action in actions:
+            agent_state.stop = False
+            agent_state.poweroff = False
+            agent_state.reboot = False
+            agent_state.incomplete = False
+            agent_state.failed = False
             if action.Path != "":
                 logger.debug("Attempting to add a file to the file system.")
                 try:
-                    result = action_runner.add_file(job_action=action)
+                    action_runner.add_file(job_action=action)
                     logger.debug("Added {} to the file system".format(
                         action.Path
                     ))
-                except ValueError as ve:
-                    result = {"Out": str(ve.value), "Exit_Code": -1}
-                    agent_state.failed = True
-                    logger.error("Failed to add file {}".format(
-                        action.Path
-                    ))
-                    logger.exception(ve)
                 except Exception as e:
-                    result = {"Out": str(e.value), "Exit_Code": -1}
                     agent_state.failed = True
                     logger.error("Failed to add file {}".format(
                         action.Path
                     ))
+                    m_copy = copy.deepcopy(agent_state.machine)
+                    m_copy.Runnable = False
+                    agent_state.machine = self._patch_machine(
+                        agent_state,
+                        m_copy
+                    )
                     logger.exception(e)
+                    return agent_state, -1
             else:
                 logger.debug("Running command on system. {}".format(
                     action.Name
                 ))
                 result = action_runner.run_command(job_action=action)
-                if result.get("Exit_Code") > 0 or result.get("Exit_Code") < 0:
-                    # TODO: Handle the return codes for setting things
-                    # up correctly. See taskRunner.go for the map
+                if result.get("Exit_Code") != 0:
                     agent_state.failed = True
                     logger.error("Failed to run command on system.")
-
-            results.append(result)
-
-        return agent_state
+                    m_copy = copy.deepcopy(agent_state.machine)
+                    m_copy.Runnable = False
+                    agent_state.machine = self._patch_machine(
+                        agent_state,
+                        m_copy
+                    )
+                    code = int(result.get("Exit_Code"))
+                    if code == 16:
+                        agent_state.stop = True
+                        agent_state.failed = False
+                    elif code == 32:
+                        agent_state.poweroff = True
+                        agent_state.failed = False
+                    elif code == 64:
+                        agent_state.reboot = True
+                        agent_state.failed = False
+                    elif code == 128:
+                        agent_state.incomplete = True
+                        agent_state.failed = False
+                    elif code == 144:
+                        agent_state.stop = True
+                        agent_state.incomplete = True
+                        agent_state.failed = False
+                    elif code == 160:
+                        agent_state.incomplete = True
+                        agent_state.poweroff = True
+                        agent_state.failed = False
+                    elif code == 192:
+                        agent_state.incomplete = True
+                        agent_state.reboot = True
+                        agent_state.failed = False
+                    return agent_state, code
+        return agent_state, None
 
     def _get_job(self, agent_state=None):
         jr = "jobs/{}".format(
@@ -176,3 +216,13 @@ class RunTask(BaseState):
             resource=jr
         )
         return Job(**job_obj)
+
+    def _handle_state(self, agent_state=None, action_results=None):
+        if action_results is None:
+            return RunTask(), agent_state
+        if agent_state.failed:
+            return WaitRunnable(), agent_state
+        if agent_state.reboot:
+            return Reboot(), agent_state
+        if agent_state.poweroff:
+            return PowerOff(), agent_state
