@@ -3,7 +3,6 @@ import copy
 import jsonpatch
 
 from drpy import action_runner
-from drpy.fsm.states.waitrunnable import WaitRunnable
 from drpy.models.job import Job, JobAction
 from drpy.fsm.states.power import Exit, Reboot, PowerOff
 from .base import BaseState
@@ -221,6 +220,7 @@ class RunTask(BaseState):
         if action_results is None:
             return RunTask(), agent_state
         if agent_state.failed:
+            from drpy.fsm.states.waitrunnable import WaitRunnable
             return WaitRunnable(), agent_state
         if agent_state.reboot:
             return Reboot(), agent_state
