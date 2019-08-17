@@ -175,3 +175,35 @@ class Client:
         except urllib.error.HTTPError as res:
             return {'Error': res.code}
             pass
+
+    def put_job_log(self, job=None, log_msg=None):
+        """
+        POST a log message to DRP about a given job.
+
+        :type job: Job
+        :param job:
+        :type log_msg: str
+        :param log_msg:
+        :return:
+        """
+        if job is None:
+            raise ValueError("job can not be None.")
+        if log_msg is None:
+            raise ValueError("log_message can not be None")
+        resource = self.endpoint + "/jobs/{}/log".format(job)
+        log_msg = log_msg.encode("utf-8")
+        headers = self.headers
+        headers.update({"Content-Type": "application/octet-stream"})
+        r = urllib.request.Request(resource, data=log_msg, headers=headers,
+                                   method="PUT")
+        try:
+            res = urllib.request.urlopen(r, context=self.context)
+            logger.debug("PUT_JOB_LOG Response: {} {}".format(
+                res.status,
+                res.msg
+            ))
+            if res.status == 204:
+                return True
+        except urllib.error.HTTPError:
+            return False
+        return False

@@ -1,0 +1,37 @@
+interactions:
+- request:
+    body: log message from a python test.
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Basic cm9ja2V0c2thdGVzOnBhc3N0aGlz
+      Connection:
+      - close
+      Content-Length:
+      - '31'
+      Content-Type:
+      - application/octet-stream; charset=utf-8
+      Host:
+      - 192.168.1.53:8092
+      User-Agent:
+      - drpy v0.1 (https://github.com/rackn/drpy)
+    method: PUT
+    uri: https://192.168.1.53:8092/api/v3/jobs/9fb98d68-d957-484e-a012-925037b499d0/log
+  response:
+    body:
+      string: '{"Model":"","Key":"","Type":"API ERROR","Messages":["job log put must
+        have content-type application/octet-stream"],"Code":415}'
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '126'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 17 Aug 2019 17:12:08 GMT
+    status:
+      code: 415
+      message: Unsupported Media Type
+version: 1
