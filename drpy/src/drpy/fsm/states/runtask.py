@@ -3,6 +3,7 @@ import copy
 import jsonpatch
 
 from drpy import action_runner
+from drpy.api.client import Client
 from drpy.models.job import Job, JobAction
 from drpy.fsm.states.power import Exit, Reboot, PowerOff
 from .base import BaseState
@@ -146,14 +147,14 @@ class RunTask(BaseState):
                 logger.debug("Attempting to add a file to the file system.")
                 try:
                     action_runner.add_file(job_action=action)
-                    logger.debug("Added {} to the file system".format(
-                        action.Path
-                    ))
+                    log_msg = "Added {} to the file system".format(action.Path)
+                    logger.debug(log_msg)
+                    c = agent_state.client  # type: Client
+                    c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
                 except Exception as e:
                     agent_state.failed = True
-                    logger.error("Failed to add file {}".format(
-                        action.Path
-                    ))
+                    log_msg = "Failed to add file {}".format(action.Path)
+                    logger.error(log_msg)
                     m_copy = copy.deepcopy(agent_state.machine)
                     m_copy.Runnable = False
                     agent_state.machine = self._patch_machine(
@@ -161,6 +162,10 @@ class RunTask(BaseState):
                         m_copy
                     )
                     logger.exception(e)
+                    c = agent_state.client  # type: Client
+                    log_msg += "\n"
+                    log_msg += repr(e)
+                    c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
                     return agent_state, -1
             else:
                 logger.debug("Running command on system. {}".format(
@@ -169,7 +174,8 @@ class RunTask(BaseState):
                 result = action_runner.run_command(job_action=action)
                 if result.get("Exit_Code") != 0:
                     agent_state.failed = True
-                    logger.error("Failed to run command on system.")
+                    log_msg = "Failed to run command on system."
+                    logger.error(log_msg)
                     m_copy = copy.deepcopy(agent_state.machine)
                     m_copy.Runnable = False
                     agent_state.machine = self._patch_machine(
@@ -177,6 +183,13 @@ class RunTask(BaseState):
                         m_copy
                     )
                     code = int(result.get("Exit_Code"))
+                    c = agent_state.client  # type: Client
+                    log_msg = "Command: {}\n{}".format(
+                        action.Name,
+                        result.get("Errors")
+                    )
+                    log_msg += "\nExit Code: {}".format(code)
+                    c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
                     if code == 16:
                         agent_state.stop = True
                         agent_state.failed = False

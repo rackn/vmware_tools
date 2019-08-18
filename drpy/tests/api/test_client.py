@@ -70,3 +70,13 @@ def test_get_job_actions(setup_client):
     assert len(actions) == 1
     ja = JobAction(**actions[0])
     assert ja.Name == "enforce-sledgehammer"
+
+
+@my_vcr.use_cassette("put_job_log_success.yaml")
+def test_put_job_log_success(setup_client):
+    client = setup_client
+    actions = client.put_job_log(
+        job="9fb98d68-d957-484e-a012-925037b499d0",
+        log_msg="log message from a python test."
+    )
+    assert actions
