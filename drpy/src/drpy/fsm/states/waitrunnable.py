@@ -21,5 +21,6 @@ class WaitRunnable(BaseState):
         if machine.Runnable:
             agent_state.machine = machine
             return RunTask(), agent_state
+        agent_state.machine = machine
         time.sleep(3)
         return WaitRunnable(), agent_state
