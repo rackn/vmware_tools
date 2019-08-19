@@ -157,7 +157,7 @@ class RunTask(BaseState):
                     logger.error(log_msg)
                     m_copy = copy.deepcopy(agent_state.machine)
                     m_copy.Runnable = False
-                    agent_state.machine = self._patch_machine(
+                    self._patch_machine(
                         agent_state,
                         m_copy
                     )
@@ -178,7 +178,7 @@ class RunTask(BaseState):
                     logger.error(log_msg)
                     m_copy = copy.deepcopy(agent_state.machine)
                     m_copy.Runnable = False
-                    agent_state.machine = self._patch_machine(
+                    self._patch_machine(
                         agent_state,
                         m_copy
                     )
@@ -239,3 +239,5 @@ class RunTask(BaseState):
             return Reboot(), agent_state
         if agent_state.poweroff:
             return PowerOff(), agent_state
+        if agent_state.stop:
+            return Exit(), agent_state
