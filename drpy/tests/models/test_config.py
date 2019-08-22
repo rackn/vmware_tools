@@ -14,7 +14,13 @@ def test_asdict():
     tok = "mytoken"
     conf = Config(ep, tok, uid)
     conf_dict = conf._asdict()
-    expected = {'endpoint': ep, 'token': tok, 'machine_uuid': uid}
+    expected = {
+        'endpoint': ep,
+        'token': tok,
+        'machine_uuid': uid,
+        'command_path': None,
+        'command_timeout': None
+    }
     assert conf_dict == expected
 
 
@@ -29,7 +35,7 @@ def test_replace():
 def test_defaults():
     """Using no params should invoke defaults"""
     c1 = Config()
-    c2 = Config(None, None, None)
+    c2 = Config(None, None, None, None, None)
     assert c1 == c2
 
 

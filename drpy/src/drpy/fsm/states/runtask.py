@@ -171,7 +171,11 @@ class RunTask(BaseState):
                 logger.debug("Running command on system. {}".format(
                     action.Name
                 ))
-                result = action_runner.run_command(job_action=action)
+                result = action_runner.run_command(
+                    job_action=action,
+                    timeout=agent_state.config.command_timeout,
+                    expath=agent_state.config.command_path
+                )
                 if result.get("Exit_Code") != 0:
                     agent_state.failed = True
                     log_msg = "Failed to run command on system."

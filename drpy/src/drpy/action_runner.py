@@ -5,17 +5,19 @@ from drpy.exceptions import DRPException
 from drpy.models.job import JobAction
 
 
-def run_command(job_action=None, timeout=None):
+def run_command(job_action=None, timeout=None, expath=None):
     """
     executes a shell script using /bin/sh. If Path is not
     an empty string DRPException is raised. The shell script
     is passed in as STDIN. All stdout and any errors along with
     the return code will be returned in a dict.
 
-    :type timeout: int
-    :param timeout:
     :type job_action: JobAction
     :param job_action:
+    :type timeout: int
+    :param timeout:
+    :type expath: str
+    :param expath: Full path for where to write & execute scripts.
     :return:
     """
     if not isinstance(job_action, JobAction):
@@ -23,11 +25,28 @@ def run_command(job_action=None, timeout=None):
     if job_action.Path != '':
         raise DRPException("run_command called when path provided.")
     command = job_action.Content
-    p = subprocess.Popen('/bin/sh', stdin=subprocess.PIPE,
-                         stdout=subprocess.PIPE)
-    out, errs = p.communicate(command.encode('utf8'), timeout=timeout)
-    exit_code = p.returncode
-    return {"Out": out, "Errors": errs, "Exit_Code": exit_code}
+    path = expath
+    if path is None or path != '':
+        path = "/opt/rackn/runner"
+    if path.endswith("/"):
+        path = path[:-1]
+    os.makedirs(path, exist_ok=True)
+    file = path + "/{}".format(job_action.Name)
+    with open(file, 'x') as f:
+        f.writelines(command)
+    os.chmod(file, 0o700)
+    cpobj = subprocess.run(
+        file,
+        timeout=timeout,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    os.unlink(file)
+    return {
+        "Out": cpobj.stdout,
+        "Errors": cpobj.stderr,
+        "Exit_Code": cpobj.returncode
+    }
 
 
 def add_file(job_action=None):
