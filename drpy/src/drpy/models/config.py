@@ -5,8 +5,15 @@ from drpy.cli.cli import verify_conf_file
 
 
 # Config element types: [endpoint: str, token: str, machine_uuid: uuid.UUID]
-Config = namedtuple("Config", ["endpoint", "token", "machine_uuid"])
-Config.__new__.__defaults__ = (None, None, None)
+Config = namedtuple("Config", [
+    "endpoint",
+    "token",
+    "machine_uuid",
+    "command_timeout",
+    "command_path"
+])
+
+Config.__new__.__defaults__ = (None, None, None, None, None)
 
 
 class ConfigException(Exception):

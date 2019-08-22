@@ -18,7 +18,7 @@ def main():
         endpoint=conf.endpoint,
         token=conf.token
     )
-    agent_state = AgentState(client=drpclient)
+    agent_state = AgentState(client=drpclient, config=conf)
     machine_state = Initialize()
     while machine_state.state != "Exit":
         machine_state, agent_state = machine_state.on_event(
