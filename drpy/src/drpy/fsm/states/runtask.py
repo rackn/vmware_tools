@@ -45,6 +45,12 @@ class RunTask(BaseState):
                 if agent_state.job.Uuid == "" or agent_state.job.Uuid is None:
                     logger.debug("No more jobs to process.")
                     return Exit(), agent_state
+        # if task contains a colon - skip it
+        if ":" in agent_state.job.Task:
+            agent_state.wait = True
+            return self._handle_state(
+                agent_state=agent_state
+            )
         if agent_state.job.State != "running":
             logger.debug("Setting job {} to state running from {}".format(
                 agent_state.job.Uuid,
@@ -236,6 +242,10 @@ class RunTask(BaseState):
     def _handle_state(self, agent_state=None, action_results=None):
         if action_results is None:
             return RunTask(), agent_state
+        if agent_state.wait:
+            from drpy.fsm.states.waitrunnable import WaitRunnable
+            agent_state.wait = False
+            return WaitRunnable(), agent_state
         if agent_state.failed:
             from drpy.fsm.states.waitrunnable import WaitRunnable
             return WaitRunnable(), agent_state
