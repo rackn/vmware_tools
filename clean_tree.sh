@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-git checkout -- firewall/stage/descriptor.xml
-git checkout -- drpy/stage/descriptor.xml
-git checkout -- drpy/stage/payloads/drpy/opt/rackn/drpy/.keep
+rm -rf drpy/stage
+rm -rf firewall/stage
+git checkout -- firewall/stage
+git checkout -- drpy/stage
 
 
