@@ -18,3 +18,6 @@ cp $TRAVIS_BUILD_DIR/drpy/stage/*.vib $TRAVIS_BUILD_DIR/grd/vibs
 docker exec -it vibauthor /bin/bash -c "cd firewall/ && vibauthor -C -t stage -f"
 cp $TRAVIS_BUILD_DIR/firewall/stage/*.vib $TRAVIS_BUILD_DIR/grd/vibs
 
+# This is too harsh
+docker ps -a | awk '{ print $1 }' | xargs docker kill
+docker ps -a | awk '{ print $1 }' | xargs docker rm
