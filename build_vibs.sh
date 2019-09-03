@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 
+git checkout -- firewall/stage/descriptor.xml
+git checkout -- drpy/stage/descriptor.xml
+
 export TRAVIS_BUILD_DIR=`pwd`
 cd drpy
 ./build.sh $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/opt/rackn/drpy
