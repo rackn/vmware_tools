@@ -194,9 +194,10 @@ class RunTask(BaseState):
                     )
                     code = int(result.get("Exit_Code"))
                     c = agent_state.client  # type: Client
-                    log_msg = "Command: {}\n{}".format(
+                    log_msg = "Command: {}\nErrors: {}\nOutput: {}".format(
                         action.Name,
-                        result.get("Errors")
+                        result.get("Errors"),
+                        result.get("Out"),
                     )
                     log_msg += "\nExit Code: {}".format(code)
                     c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
