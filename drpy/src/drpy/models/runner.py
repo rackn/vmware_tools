@@ -4,6 +4,7 @@ from drpy.models.base import Namespace
 class AgentState(Namespace):
 
     attrs = [
+        "wait",
         "failed",
         "incomplete",
         "reboot",
