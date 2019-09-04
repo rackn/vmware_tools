@@ -1,5 +1,7 @@
 from drpy.fsm.states.base import BaseState
 
+from drpy import logger
+
 
 class Exit(BaseState):
 
@@ -10,10 +12,20 @@ class Exit(BaseState):
 class Reboot(BaseState):
 
     def on_event(self, *args, **kwargs):
-        self.reboot()
+        agent_state = kwargs.get("agent_state")
+        try:
+            self.reboot()
+        except Exception as e:
+            logger.debug("Reboot failed! {}".format(e.message))
+        return Exit(), agent_state
 
 
 class PowerOff(BaseState):
 
     def on_event(self, *args, **kwargs):
-        self.power_off()
+        agent_state = kwargs.get("agent_state")
+        try:
+            self.power_off()
+        except Exception as e:
+            logger.debug("PowerOff failed! {}".format(e.message))
+        return Exit(), agent_state

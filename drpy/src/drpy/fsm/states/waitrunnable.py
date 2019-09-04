@@ -1,7 +1,6 @@
 import time
 
 from drpy.fsm.states.base import BaseState
-from drpy.fsm.states.runtask import RunTask
 from drpy.fsm.states.power import Exit, Reboot
 
 
@@ -15,12 +14,14 @@ class WaitRunnable(BaseState):
         if agent_state.machine.BootEnv != machine.BootEnv:
             # The boot env has changed. Time to reboot unless
             # we end in -install and then we exit
-            if machine.BootEnv.endswith("-install"):
+            if agent_state.machine.BootEnv.endswith("-install"):
                 return Exit(), agent_state
             return Reboot(), agent_state
-        if machine.Runnable:
-            agent_state.machine = machine
-            return RunTask(), agent_state
         agent_state.machine = machine
+        if machine.CurrentTask >= len(machine.Tasks):
+            return Exit(), agent_state
+        if machine.Runnable:
+            from drpy.fsm.states.runtask import RunTask
+            return RunTask(), agent_state
         time.sleep(3)
         return WaitRunnable(), agent_state

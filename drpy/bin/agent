@@ -4,7 +4,6 @@ from drpy.api.client import Client
 from drpy.models.runner import AgentState
 from drpy.fsm.states.initialize import Initialize
 
-
 def main():
     parser = cli.build_arg_parser()
     args = parser.parse_args()
@@ -18,14 +17,11 @@ def main():
         endpoint=conf.endpoint,
         token=conf.token
     )
-    agent_state = AgentState(client=drpclient, config=conf, wait=False)
-    machine_state = Initialize()
-    while machine_state.state != "Exit":
-        machine_state, agent_state = machine_state.on_event(
-            agent_state=agent_state,
-            machine_uuid=conf.machine_uuid
-        )
-
+    mu = conf.machine_uuid
+    as1 = AgentState(client=drpclient, config=conf, wait=False)
+    ms = Initialize()
+    while ms.state != "Exit":
+        ms, as1 = ms.on_event(agent_state=as1, machine_uuid=mu)
 
 if __name__ == "__main__":
     main()

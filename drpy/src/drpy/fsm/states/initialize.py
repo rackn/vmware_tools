@@ -1,7 +1,8 @@
 import copy
 
 from drpy.fsm.states.base import BaseState
-from drpy.fsm.states.runtask import RunTask
+from drpy.fsm.states.waitrunnable import WaitRunnable
+
 
 from drpy import logger
 
@@ -29,7 +30,33 @@ class Initialize(BaseState):
             agent_state.machine = self._patch_machine(agent_state, m_copy)
             logger.debug("Successfully Patched machine to runnable")
 
-        return RunTask(), agent_state
+        if agent_state.machine.CurrentJob != "":
+            logger.debug("Existing Job {} for {}-{}".format(
+                agent_state.machine.CurrentJob,
+                agent_state.machine.Name,
+                agent_state.machine.Uuid
+            ))
+            logger.debug("Loading copy of Job into agent_state")
+            try:
+                agent_state.job = self._get_job(agent_state=agent_state)
+                logger.debug("Current job state: {}".format(
+                    agent_state.job.State
+                ))
+                if (agent_state.job.State == "running" or
+                        agent_state.job.State == "created"):
+                    agent_state = self._set_job_state(
+                        state="failed",
+                        agent_state=agent_state
+                    )
+                    logger.debug("Current Job closed on startup: {}".format(
+                        agent_state.__dict__
+                    ))
+            except Exception as e:
+                logger.debug(e.message)
+                logger.debug("Current Job is not present: {}".format(
+                    agent_state.machine.CurrentJob))
+
+        return WaitRunnable(), agent_state
 
     def _set_job_running(self, agent_state=None):
         pass

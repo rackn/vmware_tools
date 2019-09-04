@@ -1,8 +1,10 @@
 import abc
 import subprocess
+import copy
 
 import jsonpatch
 
+from drpy.models.job import Job
 from drpy.fsm import logger
 from drpy.models.machine import Machine
 
@@ -78,3 +80,43 @@ class BaseState(abc.ABC):
             machine_uuid
         ))
         return Machine(**machine_obj)
+
+    def _set_job_state(self, state=None, agent_state=None):
+        state = state
+        if agent_state.failed:
+            state = "failed"
+        elif agent_state.incomplete:
+            state = "incomplete"
+        logger.debug("Setting Job {} to State {}".format(
+            agent_state.job.Uuid,
+            state
+        ))
+        states = ["created", "running", "failed", "finished", "incomplete"]
+        if state not in states:
+            raise NotImplementedError
+        job_copy = copy.deepcopy(agent_state.job)  # type: Job
+        job_copy.State = state
+        job_diff = jsonpatch.make_patch(
+            agent_state.job.__dict__,
+            job_copy.__dict__
+        )
+        resource = "jobs/{}".format(agent_state.job.Uuid)
+        job_res = agent_state.client.patch(
+            resource=resource,
+            payload=job_diff.to_string()
+        )
+        new_job = Job(**job_res)
+        agent_state.job = new_job
+        return agent_state
+
+    def _get_job(self, agent_state=None):
+        jr = "jobs/{}".format(
+            agent_state.machine.CurrentJob
+        )
+        logger.debug("Fetching job resource for job id {}".format(
+            agent_state.machine.CurrentJob
+        ))
+        job_obj = agent_state.client.get(
+            resource=jr
+        )
+        return Job(**job_obj)
