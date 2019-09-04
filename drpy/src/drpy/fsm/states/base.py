@@ -120,4 +120,3 @@ class BaseState(abc.ABC):
             resource=jr
         )
         return Job(**job_obj)
-

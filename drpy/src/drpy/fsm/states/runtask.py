@@ -1,7 +1,5 @@
 import copy
 
-import jsonpatch
-
 from drpy import action_runner
 from drpy.api.client import Client
 from drpy.models.job import Job, JobAction

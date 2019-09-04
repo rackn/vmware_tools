@@ -1,7 +1,6 @@
 import copy
 
 from drpy.fsm.states.base import BaseState
-from drpy.fsm.states.runtask import RunTask
 from drpy.fsm.states.waitrunnable import WaitRunnable
 
 
@@ -43,7 +42,8 @@ class Initialize(BaseState):
                 logger.debug("Current job state: {}".format(
                     agent_state.job.State
                 ))
-                if agent_state.job.State == "running" or agent_state.job.State == "created":
+                if (agent_state.job.State == "running" or
+                        agent_state.job.State == "created"):
                     agent_state = self._set_job_state(
                         state="failed",
                         agent_state=agent_state
@@ -51,8 +51,10 @@ class Initialize(BaseState):
                     logger.debug("Current Job closed on startup: {}".format(
                         agent_state.__dict__
                     ))
-            except:
-                logger.debug("Current Job is not present: {}".format(agent_state.machine.CurrentJob))
+            except Exception as e:
+                logger.debug(e.message)
+                logger.debug("Current Job is not present: {}".format(
+                    agent_state.machine.CurrentJob))
 
         return WaitRunnable(), agent_state
 
