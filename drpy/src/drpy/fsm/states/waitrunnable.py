@@ -17,12 +17,11 @@ class WaitRunnable(BaseState):
             if agent_state.machine.BootEnv.endswith("-install"):
                 return Exit(), agent_state
             return Reboot(), agent_state
-        if machine.Runnable:
-            agent_state.machine = machine
-            from drpy.fsm.states.runtask import RunTask
-            return RunTask(), agent_state
         agent_state.machine = machine
         if machine.CurrentTask >= len(machine.Tasks):
             return Exit(), agent_state
+        if machine.Runnable:
+            from drpy.fsm.states.runtask import RunTask
+            return RunTask(), agent_state
         time.sleep(3)
         return WaitRunnable(), agent_state
