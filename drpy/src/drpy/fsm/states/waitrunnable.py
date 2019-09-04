@@ -14,7 +14,7 @@ class WaitRunnable(BaseState):
         if agent_state.machine.BootEnv != machine.BootEnv:
             # The boot env has changed. Time to reboot unless
             # we end in -install and then we exit
-            if machine.BootEnv.endswith("-install"):
+            if agent_state.machine.BootEnv.endswith("-install"):
                 return Exit(), agent_state
             return Reboot(), agent_state
         if machine.Runnable:
