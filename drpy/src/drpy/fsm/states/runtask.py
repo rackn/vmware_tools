@@ -182,9 +182,11 @@ class RunTask(BaseState):
                     timeout=agent_state.config.command_timeout,
                     expath=agent_state.config.command_path
                 )
-                if result.get("Exit_Code") != 0:
+                log_msg = ""
+                code = int(result.get("Exit_Code"))
+                if code != 0:
                     agent_state.failed = True
-                    log_msg = "Failed to run command on system."
+                    log_msg += "Failed to run command on system.\n"
                     logger.error(log_msg)
                     m_copy = copy.deepcopy(agent_state.machine)
                     m_copy.Runnable = False
@@ -192,15 +194,6 @@ class RunTask(BaseState):
                         agent_state,
                         m_copy
                     )
-                    code = int(result.get("Exit_Code"))
-                    c = agent_state.client  # type: Client
-                    log_msg = "Command: {}\nErrors: {}\nOutput: {}".format(
-                        action.Name,
-                        result.get("Errors"),
-                        result.get("Out"),
-                    )
-                    log_msg += "\nExit Code: {}".format(code)
-                    c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
                     if code == 16:
                         agent_state.stop = True
                         agent_state.failed = False
@@ -225,7 +218,15 @@ class RunTask(BaseState):
                         agent_state.incomplete = True
                         agent_state.reboot = True
                         agent_state.failed = False
-                    return agent_state, code
+                c = agent_state.client  # type: Client
+                log_msg += "Command: {}".format(action.Name)
+                log_msg += "\nErrors: "
+                log_msg += result.get("Errors")
+                log_msg += "\nOutput: "
+                log_msg += result.get("Out")
+                log_msg += "\nExit Code: {}".format(code)
+                c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
+                return agent_state, code
         return agent_state, None
 
     def _get_job(self, agent_state=None):
