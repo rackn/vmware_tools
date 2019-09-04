@@ -1,7 +1,6 @@
 import time
 
 from drpy.fsm.states.base import BaseState
-from drpy.fsm.states.runtask import RunTask
 from drpy.fsm.states.power import Exit, Reboot
 
 
@@ -20,7 +19,10 @@ class WaitRunnable(BaseState):
             return Reboot(), agent_state
         if machine.Runnable:
             agent_state.machine = machine
+            from drpy.fsm.states.runtask import RunTask
             return RunTask(), agent_state
         agent_state.machine = machine
+        if machine.CurrentTask >= len(machine.Tasks):
+            return Exit(), agent_state
         time.sleep(3)
         return WaitRunnable(), agent_state
