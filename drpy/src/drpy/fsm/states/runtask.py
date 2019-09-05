@@ -96,7 +96,8 @@ class RunTask(BaseState):
         return job_actions
 
     def _run_job_actions(self, agent_state=None, actions=None):
-        for action in actions:
+        for index, action in enumerate(actions):
+            final = len(actions) == index - 1
             agent_state.stop = False
             agent_state.poweroff = False
             agent_state.reboot = False
@@ -179,7 +180,21 @@ class RunTask(BaseState):
                 log_msg += result.get("Out").decode('utf-8')
                 log_msg += "\nExit Code: {}".format(code)
                 c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
-                return agent_state, code
+
+                # If a non-final action sets the incomplete flag, it actually
+                # means early success and stop processing actions for this task.
+                # This allows actions to be structured in an "early exit"
+                # fashion.
+                #
+                # Only the final action can actually set things as incomplete.
+                if final and agent_state.incomplete:
+                    agent_state.incomplete = False
+                    return agent_state, code
+                if agent_state.failed:
+                    return agent_state, code
+                if agent_state.reboot or agent_state.poweroff or agent_state.stop:
+                    agent_state.incomplete = not final
+                    return agent_state, code
         return agent_state, None
 
     def _handle_state(self, agent_state=None, action_results=None):
