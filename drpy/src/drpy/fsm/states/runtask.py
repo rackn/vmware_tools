@@ -182,9 +182,9 @@ class RunTask(BaseState):
                 c.put_job_log(job=agent_state.job.Uuid, log_msg=log_msg)
 
                 # If a non-final action sets the incomplete flag, it actually
-                # means early success and stop processing actions for this task.
-                # This allows actions to be structured in an "early exit"
-                # fashion.
+                # means early success and stop processing actions for this
+                # task.  This allows actions to be structured in an
+                # "early exit" fashion.
                 #
                 # Only the final action can actually set things as incomplete.
                 if final and agent_state.incomplete:
@@ -192,7 +192,8 @@ class RunTask(BaseState):
                     return agent_state, code
                 if agent_state.failed:
                     return agent_state, code
-                if agent_state.reboot or agent_state.poweroff or agent_state.stop:
+                if (agent_state.reboot or agent_state.poweroff
+                        or agent_state.stop):
                     agent_state.incomplete = not final
                     return agent_state, code
         return agent_state, None
