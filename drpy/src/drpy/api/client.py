@@ -1,6 +1,7 @@
 import base64
 import json
 import ssl
+import time
 import urllib.request
 
 from drpy.api import __version__
@@ -106,10 +107,18 @@ class Client:
         """
         url = self.endpoint + "/{}".format(resource)
         r = urllib.request.Request(url, headers=self.headers)
-        res = urllib.request.urlopen(r, context=self.context)
-        data = res.read().decode('utf-8')
-        json_obj = json.loads(data)
-        return json_obj
+        retry_count = 0
+        while retry_count < 20:
+            try:
+                res = urllib.request.urlopen(r, context=self.context)
+                data = res.read().decode('utf-8')
+                json_obj = json.loads(data)
+                return json_obj
+            except urllib.error.URLError as e:
+                time.sleep(5)
+                retry_count = retry_count + 1
+                saved_error = e
+        raise saved_error
 
     def patch(self, resource=None, payload=None):
         """
