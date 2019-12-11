@@ -16,7 +16,7 @@ class Reboot(BaseState):
         try:
             self.reboot()
         except Exception as e:
-            logger.debug("Reboot failed! {}".format(e.message))
+            logger.error("Reboot failed! {}".format(e.message))
         return Exit(), agent_state
 
 
@@ -27,5 +27,5 @@ class PowerOff(BaseState):
         try:
             self.power_off()
         except Exception as e:
-            logger.debug("PowerOff failed! {}".format(e.message))
+            logger.error("PowerOff failed! {}".format(e.message))
         return Exit(), agent_state
