@@ -9,6 +9,7 @@ class Machine(Namespace):
         'Available',
         'BootEnv',
         'Bundle',
+        'Context',
         'CurrentJob',
         'CurrentTask',
         'Description',

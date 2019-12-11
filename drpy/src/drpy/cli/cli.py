@@ -23,6 +23,12 @@ def build_arg_parser():
         action='store',
         help="Location of config file"
     )
+    parser.add_argument(
+        "-r",
+        "--runner",
+        help="Single runner mode. Does not function as long lived agent.",
+        action="store_true"
+    )
     return parser
 
 
