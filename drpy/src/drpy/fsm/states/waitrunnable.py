@@ -1,3 +1,4 @@
+import logging
 import time
 
 from drpy.fsm.states.base import BaseState
@@ -19,9 +20,15 @@ class WaitRunnable(BaseState):
             return Reboot(), agent_state
         agent_state.machine = machine
         if machine.CurrentTask >= len(machine.Tasks):
-            return Exit(), agent_state
+            if agent_state.runner:
+                return Exit(), agent_state
+            time.sleep(3)
+            return WaitRunnable(), agent_state
         if machine.Runnable:
-            from drpy.fsm.states.runtask import RunTask
-            return RunTask(), agent_state
+            logging.debug("Machine Runnable. Checking context. {}".format(
+                machine.Context))
+            if machine.Context == "":
+                from drpy.fsm.states.runtask import RunTask
+                return RunTask(), agent_state
         time.sleep(3)
         return WaitRunnable(), agent_state

@@ -14,5 +14,6 @@ class AgentState(Namespace):
         "job",
         "machine",
         "task",
-        "config"
+        "config",
+        "runner"
     ]
