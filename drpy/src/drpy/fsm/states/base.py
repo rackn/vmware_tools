@@ -14,7 +14,7 @@ class BaseState(abc.ABC):
     def __init__(self, *args, api_client=None, machine=None, **kwargs):
         self.client = api_client
         self.machine = machine
-        logger.info("Processing current state {}".format(str(self)))
+        logger.debug("Processing current state {}".format(str(self)))
 
     @abc.abstractmethod
     def on_event(self, *args, **kwargs):
