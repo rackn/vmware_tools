@@ -108,7 +108,7 @@ class Client:
         url = self.endpoint + "/{}".format(resource)
         r = urllib.request.Request(url, headers=self.headers)
         retry_count = 0
-        while retry_count < 20:
+        while retry_count < 31536000:
             try:
                 res = urllib.request.urlopen(r, context=self.context)
                 data = res.read().decode('utf-8')
