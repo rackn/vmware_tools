@@ -1,6 +1,7 @@
 import abc
-import subprocess
 import copy
+import json
+import subprocess
 
 import jsonpatch
 
@@ -80,6 +81,23 @@ class BaseState(abc.ABC):
             machine_uuid
         ))
         return Machine(**machine_obj)
+
+    def _set_machine_current_job_state(self, state=None, agent_state=None):
+        state = state
+        logger.debug("Setting Machine {} || CurrentJob: {} || "
+                     "To state: {}".format(agent_state.machine.Uuid,
+                                           agent_state.machine.CurrentJob,
+                                           state))
+        states = ["created", "running", "failed", "finished", "incomplete"]
+        if state not in states:
+            raise NotImplementedError
+        payload = [{"op": "replace", "path": "/State", "value": state}]
+        payload = json.dumps(payload)
+        resource = "jobs/{}".format(agent_state.machine.CurrentJob)
+        agent_state.client.patch(
+            resource=resource,
+            payload=payload
+        )
 
     def _set_job_state(self, state=None, agent_state=None):
         state = state

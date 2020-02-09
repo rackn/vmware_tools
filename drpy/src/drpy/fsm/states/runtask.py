@@ -1,4 +1,5 @@
 import copy
+import time
 
 from drpy import action_runner
 from drpy.api.client import Client
@@ -76,11 +77,12 @@ class RunTask(BaseState):
         ))
         j_obj = agent_state.client.post_job(payload=job.__dict__)  # type: dict
         if "Error" in j_obj:
-            # todo handle the error case
             logger.error("Error in j_obj for create_job. {}".format(
                 j_obj
             ))
-            pass
+            self._set_machine_current_job_state(state="failed",
+                                                agent_state=agent_state)
+            time.sleep(3)
         return Job(**j_obj)
 
     def _get_job_actions(self, agent_state=None):
