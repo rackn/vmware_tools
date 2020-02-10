@@ -146,10 +146,17 @@ class Client:
         headers.update({"Content-Type": "application/json; charset=utf-8"})
         r = urllib.request.Request(url, data=jsonbytes, headers=headers,
                                    method="PATCH")
-        res = urllib.request.urlopen(r, context=self.context)
-        data = res.read().decode('utf-8')
-        json_obj = json.loads(data)
-        return json_obj
+        try:
+            res = urllib.request.urlopen(r, context=self.context)
+            data = res.read().decode('utf-8')
+            json_obj = json.loads(data)
+            return json_obj
+        except urllib.error.HTTPError as res:
+            logger.debug("Failed to patch.")
+            logger.debug("Resource: {}".format(url))
+            logger.debug("Payload: {}".format(jsonbytes))
+            logger.exception(res)
+            return {'Error': res.code}
 
     def post_job(self, payload=None):
         """
