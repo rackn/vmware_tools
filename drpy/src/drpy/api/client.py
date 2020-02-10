@@ -4,6 +4,8 @@ import ssl
 import time
 import urllib.request
 
+from http.client import RemoteDisconnected
+
 from drpy.api import __version__
 from drpy import logger
 
@@ -157,6 +159,12 @@ class Client:
             logger.debug("Payload: {}".format(jsonbytes))
             logger.exception(res)
             return {'Error': res.code}
+        except RemoteDisconnected as res:
+            logger.debug("Failed to patch due to RemoteDisconnected.")
+            logger.debug("Resource: {}".format(url))
+            logger.debug("Payload: {}".format(jsonbytes))
+            logger.exception(res)
+            return {'Error': res.code}
 
     def post_job(self, payload=None):
         """
@@ -190,7 +198,8 @@ class Client:
             return json_obj
         except urllib.error.HTTPError as res:
             return {'Error': res.code}
-            pass
+        except RemoteDisconnected as res:
+            return {'Error': res.code}
 
     def put_job_log(self, job=None, log_msg=None):
         """
