@@ -1,3 +1,4 @@
+import copy
 import logging
 import time
 
@@ -17,6 +18,12 @@ class WaitRunnable(BaseState):
             # we end in -install and then we exit
             if agent_state.machine.BootEnv.endswith("-install"):
                 return Exit(), agent_state
+            m_copy = copy.deepcopy(agent_state.machine)
+            m_copy.Runnable = False
+            self._patch_machine(
+                agent_state,
+                m_copy
+            )
             return Reboot(), agent_state
         agent_state.machine = machine
         if machine.CurrentTask >= len(machine.Tasks):
