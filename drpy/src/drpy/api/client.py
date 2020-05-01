@@ -116,7 +116,7 @@ class Client:
                 data = res.read().decode('utf-8')
                 json_obj = json.loads(data)
                 return json_obj
-            except urllib.error.URLError as e:
+            except (urllib.error.URLError, RemoteDisconnected) as e:
                 time.sleep(5)
                 retry_count = retry_count + 1
                 saved_error = e

@@ -2,9 +2,13 @@ import abc
 import copy
 import json
 import subprocess
+import urllib
+
+from http.client import RemoteDisconnected
 
 import jsonpatch
 
+from drpy.exceptions import DRPException
 from drpy.models.job import Job
 from drpy.fsm import logger
 from drpy.models.machine import Machine
@@ -77,10 +81,15 @@ class BaseState(abc.ABC):
     def _get_machine(self, agent_state=None, machine_uuid=None):
         if machine_uuid is None:
             machine_uuid = agent_state.machine.Uuid
-        machine_obj = agent_state.client.get(resource="machines/{}".format(
-            machine_uuid
-        ))
-        return Machine(**machine_obj)
+        try:
+            machine_obj = agent_state.client.get(resource="machines/{}".format(
+                machine_uuid
+            ))
+            return Machine(**machine_obj)
+        except (urllib.error.URLError, RemoteDisconnected) as e:
+            logger.error("Failed to get Machine object {}".format(
+                machine_uuid), e)
+            raise DRPException("Failed to get Machine Object.")
 
     def _set_machine_current_job_state(self, state=None, agent_state=None):
         state = state

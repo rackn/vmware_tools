@@ -2,6 +2,7 @@ import copy
 import logging
 import time
 
+from drpy.exceptions import DRPException
 from drpy.fsm.states.base import BaseState
 from drpy.fsm.states.power import Exit, Reboot
 
@@ -9,10 +10,15 @@ from drpy.fsm.states.power import Exit, Reboot
 class WaitRunnable(BaseState):
     def on_event(self, *args, **kwargs):
         agent_state = kwargs.get("agent_state")
-        machine = self._get_machine(
-            agent_state=agent_state,
-            machine_uuid=agent_state.machine.Uuid
-        )
+        try:
+            machine = self._get_machine(
+                agent_state=agent_state,
+                machine_uuid=agent_state.machine.Uuid
+            )
+        except DRPException:
+            agent_state.failed = True
+            return WaitRunnable(), agent_state
+
         if agent_state.machine.BootEnv != machine.BootEnv:
             # The boot env has changed. Time to reboot unless
             # we end in -install and then we exit
