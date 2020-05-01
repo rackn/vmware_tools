@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from drpy.cli import cli
 from drpy.models import config
 from drpy.api.client import Client
@@ -25,6 +28,13 @@ def main():
         wait=False,
         runner=runner
     )
+    if agent_state.config.command_path == '' or \
+            agent_state.config.command_path is None:
+        path = "/opt/rackn/runner"
+    else:
+        path = agent_state.config.command_path
+    if os.path.exists(path):
+        shutil.rmtree(path)
     machine_state = Initialize()
     while machine_state.state != "Exit":
         machine_state, agent_state = machine_state.on_event(

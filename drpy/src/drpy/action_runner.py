@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 
 from drpy.exceptions import DRPException
@@ -30,6 +31,8 @@ def run_command(job_action=None, timeout=None, expath=None):
         path = "/opt/rackn/runner"
     if path.endswith("/"):
         path = path[:-1]
+    if os.path.exists(path):
+        shutil.rmtree(path)
     os.makedirs(path, exist_ok=True)
     file = path + "/{}".format(job_action.Name)
     with open(file, 'x') as f:
