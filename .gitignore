@@ -5,6 +5,9 @@ __pycache__/
 
 .idea/
 grd
+*.zip
+*.vib
+drpy/stage/payloads/
 
 # C extensions
 *.so

@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<!-- If additional bulletins are needed, they should be in separate files. -->
+
+<bulletin>
+
+	<!-- The bulletin ID must be globally unique.  To facilitate
+	     this, the ID must begin with the designated vendor code.
+	     The vendor code will be assigned by VMware.  The rest of
+	     the bulletin ID must be locally unique within that vendor
+	     code.  The bulletin ID may incorporate information such
+	     as product/component and version information, if
+	     applicable.  The bulletin ID must not contain spaces. -->
+
+	<id>RKN-DRPY-Agent_1.0-0.0.0001</id>
+
+	<!-- The name of your company. -->
+
+	<vendor>RKN</vendor>
+
+	<!-- A short (1 line) summary of this bulletin. -->
+
+	<summary>DRPY Agent</summary>
+
+        <!-- Valid values for severity tag are critical, security,
+             and general -->
+	<severity>general</severity>
+
+        <!-- Valid values for category tag are security, bugfix,
+             enhancement, recall, recallfix, info, misc and general -->
+        <category>enhancement</category>
+
+        <!-- Valid values for urgency tag are critical, important,
+             moderate low and general -->
+        <urgency>important</urgency>
+
+        <!-- Valid values for releasetype tag are extension, update, rollup,
+             patch, notification and upgrade -->
+	<releaseType>extension</releaseType>
+
+	<!-- A much more detailed explanation of the bulletin
+	    contents. -->
+
+	<description>Adds DRPY Agent To File System</description>
+
+	<!-- A URL link to a KnowledgeBase article or similar online
+	     documentation about this issue.  This field must contain
+	     text, but may indicate that no URL is available. -->
+
+	<kbUrl>https://rackn.com/</kbUrl>
+
+	<!-- An email address to which end users should submit queries
+	     if they have an issue with this software. -->
+
+	<contact>support@rackn.com</contact>
+
+        <!-- A dictionary representing name of a feature or component.
+             Sample:
+             <componentNameSpec name="ESXi-VM-Tools" uiString="ESXi VM Tools" />
+        -->
+        <componentNameSpec name="RKN-DRPY-Agent" uiString="RackN Agent"/>
+
+        <!-- A dictionary representing the version of a component in
+             the same format as a VIB version.
+             Sample:
+             <componentVersionSpec uiString="10.3.0" version="10.3.0.8002195" />
+        -->
+        <componentVersionSpec version="1.0-0.0.0001" uiString="1.0 - Build 0001" />
+
+	<releaseDate/>
+
+	<!-- List the platforms to which this software will apply.
+	     List each platform separately.
+
+             Attributes:
+
+		productLineID - Either esx or embeddedEsx
+		version - ESX version X.Y.Z.  Last field (Y or Z) can
+		    be a wildcard '*'.
+		locale - optional
+
+	     The platform information specified here also needs to be
+	     entered when grouping bulletins and VIBs into a
+	     metadata.zip file (using the -t option to vibpublish). -->
+
+	<platforms>
+		<softwarePlatform productLineID="esx" version="6.*" locale="" />
+		<softwarePlatform productLineID="esx" version="7.*" locale="" />
+	</platforms>
+
+	<!-- The following is a list of the individual VIB packages
+	     which address the content or issue solved by this
+	     bulletin.  Each VIB must be listed inside its own tag.
+	     The VIB ID, if not known, can be retrieved by running the
+	     vibauthor tool with the -i switch. -->
+
+	<vibList>
+		<vibID>RKN_bootbank_DRP-Agent_v1.0-1</vibID>
+	</vibList>
+
+        <!-- List of recalled VIB packages which is included only in
+             notification bulletin under recall category. Each VIB
+             must be listed inside its own tag. -->
+
+        <!-- <recalledVibList>
+                15509pat
+        </recalledVibList> -->
+
+        <!-- List of recalled Bulletin ID which is included only in
+             notification bulletin under recall category. Each bulletin
+             must be listed inside its own tag. -->
+
+        <!-- <recalledBulletinList>
+                <bulletinID/>
+        </recalledBulletinList> -->
+
+        <!-- ContenBody is included only in notification bulletin.
+             HtmlData and defaultText contains HTML text content and
+             default text content (non HTML data) respectively. -->
+
+        <!-- <contentBody>
+                <htmlData/>
+                <defaultText/>
+        </contentBody> -->
+
+        <!-- Included only in notification bulletin, the following contains the
+             list of resolutions which are provided as fixes to the recall. -->
+
+        <!-- <resolvedRecalls>
+                <recallID/>
+                <recallResolution>
+                        <recallFixID/>
+                        <bulletinIDList>
+                                <bulletinID/>
+                        </bulletinIDList>
+                </recallResolution>
+        </resolvedRecalls> -->
+</bulletin>
