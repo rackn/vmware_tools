@@ -1,12 +1,14 @@
 <vib version="5.0">
   <type>bootbank</type>
   <name>DRP-Firewall-Rule</name>
-  <vendor>RackN</vendor>
-  <version>##VERSION##</version>
+  <vendor>RKN</vendor>
+  <version>v1.0.0-3</version>
   <summary>Custom VIB from RackN</summary>
   <description>Adds custom firewall rule to allow outbound TCP traffic to DRPCLI</description>
   <relationships>
     <depends>
+        <constraint name="esx-version" relation="&gt;=" version="6.5.0"/>
+        <constraint name="esx-version" relation="&lt;&lt;" version="7.1.0"/>
     </depends>
     <conflicts/>
     <replaces/>
@@ -20,7 +22,7 @@
   </system-requires>
   <file-list>
   </file-list>
-  <acceptance-level>community</acceptance-level>
+  <acceptance-level>accepted</acceptance-level>
   <live-install-allowed>true</live-install-allowed>
   <live-remove-allowed>true</live-remove-allowed>
   <cimom-restart>false</cimom-restart>

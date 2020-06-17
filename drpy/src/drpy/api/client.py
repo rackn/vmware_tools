@@ -117,6 +117,9 @@ class Client:
                 json_obj = json.loads(data)
                 return json_obj
             except (urllib.error.URLError, RemoteDisconnected) as e:
+                logger.debug("Failed to fetch resource: {}".format(
+                    resource))
+                logger.exception(e)
                 time.sleep(5)
                 retry_count = retry_count + 1
                 saved_error = e
