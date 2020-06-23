@@ -86,7 +86,7 @@ class RunTask(BaseState):
         return Job(**j_obj)
 
     def _get_job_actions(self, agent_state=None):
-        jr = "jobs/{}/actions".format(agent_state.job.Uuid)
+        jr = "jobs/{}/actions?os=esxi".format(agent_state.job.Uuid)
         ja_list = agent_state.client.get(resource=jr)
         logger.debug("Successfully retrieved {} job actions for job {}".format(
             len(ja_list),
@@ -105,6 +105,11 @@ class RunTask(BaseState):
             agent_state.reboot = False
             agent_state.incomplete = False
             agent_state.failed = False
+            if 'OS' in action.Meta:
+                if 'esxi' not in action.Meta['OS']:
+                    logger.debug("Found non ESXi OS. Skipping JobAction.")
+                    continue
+
             if action.Path != "":
                 logger.debug("Attempting to add a file to the file system.")
                 try:
