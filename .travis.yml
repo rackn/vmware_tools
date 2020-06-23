@@ -12,30 +12,30 @@ install:
 script:
 - flake8
 - pytest -v -l --cov tests/
-after_success:
-- "./build.sh $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/opt/rackn/drpy"
-- cd $TRAVIS_BUILD_DIR
-- ./build_tools/set_version.sh drpy/stage/descriptor.xml
-- ./build_tools/set_version.sh firewall/stage/descriptor.xml
-- docker pull lamw/vibauthor
-- docker run -d --name=vibauthor -v $TRAVIS_BUILD_DIR/drpy/stage:/root/drpy/stage
-  -v $TRAVIS_BUILD_DIR/firewall:/root/firewall lamw/vibauthor tail -f /dev/null
-- docker exec -it vibauthor /bin/bash -c "cd drpy/ && vibauthor -C -t stage -f"
-- mkdir -p $TRAVIS_BUILD_DIR/grd/vibs
-- cp $TRAVIS_BUILD_DIR/drpy/stage/*.vib $TRAVIS_BUILD_DIR/grd/vibs
-- docker exec -it vibauthor /bin/bash -c "cd firewall/ && vibauthor -C -t stage -f"
-- cp $TRAVIS_BUILD_DIR/firewall/stage/*.vib $TRAVIS_BUILD_DIR/grd/vibs
-deploy:
-  provider: s3
-  region: us-west-2
-  skip_cleanup: true
-  access_key_id: AKIAJF4QJY2A23DY6YTQ
-  secret_access_key:
-    secure: jvEP+fubu5OjwKOuo04T1llCBOIipa8DL0o0HqRkyn66QEe7nxCC8OBbJCI1y+3aWWDTar8B5J7Sx/MUXF7REricM5YCcUv8sl/a6nGStKLWAAGRAP0/Dd+4oH8g5ZT8mmlT3pngkbRkN86ZOe3zUws0rHpkxuXiKsO6d9x2936prRRDF8QGZjKF91mg+x6SjH+mYGQOtK3XuWHoBmtWqMTQzfQOfTbl1WrHi4+mRIq9bDbxGsU4Cto1nioAbEe0w8mvxsf/aUO/t6A/Xl40gp90PElFMO9jQP6FM+Yy4JXFQMxBiAv8XuJ81f4NuRgaxPrQIiCCDNmZ6OmRidgz78DrH06ZcbYO9SVynQ4SbTiFLGpv3U/F2N6z5wru7J4NUxTZCvcjnO6UnXg28URzw+DvdF3O93QOqBNXlSdDu2ITsoEOZCmUMyf+ZWMf7u9D71oEWx0zw7xVPEgVGzLRC/PDW8lV8vzOE6LgdZICQjhb7o8zA6uGWQIh/6zLIrZ2KPSAIBa20teDg9n8kaT+yjRdVEUQY3ptVpninuMRs6Etsh6L6mnPKM548d7XOvT7W1SVJ7dpniwZewa1eWSEjVoWn2msKXwNWCNCE0kQV5yGInuGs0cGf3LNvDIEwN668jhg9ypZBN7sVJWPKM9bo1/1F+vGSHOHxBqxWSAN8Ho=
-  bucket: get.rebar.digital
-  local-dir: grd
-  upload-dir: artifacts
-  acl: public_read
-  on:
-    repo: rackn/vmware_tools
-    tags: true
+#after_success:
+#- "./build.sh $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/opt/rackn/drpy"
+#- cd $TRAVIS_BUILD_DIR
+#- ./build_tools/set_version.sh drpy/stage/descriptor.xml
+#- ./build_tools/set_version.sh firewall/stage/descriptor.xml
+#- docker pull lamw/vibauthor
+#- docker run -d --name=vibauthor -v $TRAVIS_BUILD_DIR/drpy/stage:/root/drpy/stage
+#  -v $TRAVIS_BUILD_DIR/firewall:/root/firewall lamw/vibauthor tail -f /dev/null
+#- docker exec -it vibauthor /bin/bash -c "cd drpy/ && vibauthor -C -t stage -f"
+#- mkdir -p $TRAVIS_BUILD_DIR/grd/vibs
+#- cp $TRAVIS_BUILD_DIR/drpy/stage/*.vib $TRAVIS_BUILD_DIR/grd/vibs
+#- docker exec -it vibauthor /bin/bash -c "cd firewall/ && vibauthor -C -t stage -f"
+#- cp $TRAVIS_BUILD_DIR/firewall/stage/*.vib $TRAVIS_BUILD_DIR/grd/vibs
+#deploy:
+#  provider: s3
+#  region: us-west-2
+#  skip_cleanup: true
+#  access_key_id: AKIAJF4QJY2A23DY6YTQ
+#  secret_access_key:
+#    secure: jvEP+fubu5OjwKOuo04T1llCBOIipa8DL0o0HqRkyn66QEe7nxCC8OBbJCI1y+3aWWDTar8B5J7Sx/MUXF7REricM5YCcUv8sl/a6nGStKLWAAGRAP0/Dd+4oH8g5ZT8mmlT3pngkbRkN86ZOe3zUws0rHpkxuXiKsO6d9x2936prRRDF8QGZjKF91mg+x6SjH+mYGQOtK3XuWHoBmtWqMTQzfQOfTbl1WrHi4+mRIq9bDbxGsU4Cto1nioAbEe0w8mvxsf/aUO/t6A/Xl40gp90PElFMO9jQP6FM+Yy4JXFQMxBiAv8XuJ81f4NuRgaxPrQIiCCDNmZ6OmRidgz78DrH06ZcbYO9SVynQ4SbTiFLGpv3U/F2N6z5wru7J4NUxTZCvcjnO6UnXg28URzw+DvdF3O93QOqBNXlSdDu2ITsoEOZCmUMyf+ZWMf7u9D71oEWx0zw7xVPEgVGzLRC/PDW8lV8vzOE6LgdZICQjhb7o8zA6uGWQIh/6zLIrZ2KPSAIBa20teDg9n8kaT+yjRdVEUQY3ptVpninuMRs6Etsh6L6mnPKM548d7XOvT7W1SVJ7dpniwZewa1eWSEjVoWn2msKXwNWCNCE0kQV5yGInuGs0cGf3LNvDIEwN668jhg9ypZBN7sVJWPKM9bo1/1F+vGSHOHxBqxWSAN8Ho=
+#  bucket: get.rebar.digital
+#  local-dir: grd
+#  upload-dir: artifacts
+#  acl: public_read
+#  on:
+#    repo: rackn/vmware_tools
+#    tags: true

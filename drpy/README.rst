@@ -109,3 +109,45 @@ Example Config File
   endpoint = https://api.drp.local:8092/
   token = EdBk_k7R3S5Q5Prz6uxdahbFdjKQPG_GsWEv1SUfa1rnVy-BIYw6jJ5_qrQGpROfZuanTrqSf37kSOYXhVaMxzHV3RC5_7s9ysBUZRtTVJF2G72XqNDDqlbR9mVnjNxQEX8p1l8NoUZdQ6WbYAmlkDMEvZB22QfiybQNzy_-vceUdEyvsKEH1_Q2j4PIHzaYF-7ZlfqCOD3cIeeGZXQH2xhGTpOQyvidt2Z1Y2lKiAQyhuGLn0Tt119Ju9NSshkHwEhoLjCcM6L37yadMy8Q5EAiLmKra4FqIFE9VqxHJZWteYis1HyWs_0gTH7Arwi4pNovneSCN679SwUhz8OwSzLg9rtxeF2JDcIFDS7DgXZaKLV97wP8PFbn3yBU1VT38aWQvraUxnZYaO1kiCwBL24PC24mhXzsUk1I-8sJvlqOc18JfYymq7PbrMtwbAU1tzSLkQJWxGn5EA_9xo9wKW-_FjTQvlGukRQ7lCDhXD8Q2TGH33cpXEgvjfklQvtdrOKQ_sBU4WSht5dzUbjVs9NvNJJHyspwo3govV_4WrMUCrxjkNiC_rCBgtfw9uhmnkT35CTPVMU0MVKG3Mb2OfcI3Owwpdinuz_fipYsEuoyxXkPilUAc6VdJdFRX02oDfoBQS3FrmLkx0CcmPTuZ4r8SIPKn1tl7Za6Hpt3LCSlQlUc1-Iy6I_qUo5zBHGrySIYfWa3Y1Dkb2eV4Cadz0PnJmgbBTVFYDW0t8aLDoywOOsSUPLt6TlMfCcxHGhDdgJoVvbbaS7uymJjsjkHRYtJVlb0M3DJuVgntYjNRPxK7c5HqSD5SnyG2eVnpVH8-QLgPz_kOyJtW8Vl8nMP0zYEBpiitKgGx9e-JITzOo_-eKCJOUtO3dI=
   machine_uuid = e1dec675-9f43-40d6-b501-e4e481d66378
+
+  [loggers]
+  keys=root,drpy
+
+  [handlers]
+  keys=fileHandler,streamHandler
+
+  [formatters]
+  keys=drpyFormatter
+
+  [logger_root]
+  level=NOTSET
+  handlers=
+
+  [logger_drpy]
+  ; Set this to adjust
+  level=DEBUG
+  handlers=fileHandler,streamHandler
+  qualname=drpy
+
+  [handler_fileHandler]
+  class=FileHandler
+  ; Set the level here to change the level output into the file
+  ; debug at logger level and info here would result in info only
+  ; messages logged to the file.
+  ; Likewise if logger is set to info but file is set to debug
+  ; the logger is only putting out info level messages so thats
+  ; still all that will be captured.
+  level=DEBUG
+  args=('drpy.log', 'w')
+  formatter=drpyFormatter
+
+  [formatter_drpyFormatter]
+  format=RackN: %(asctime)s - %(name)s - %(levelname)s - %(message)s
+  datefmt=
+  class=logging.Formatter
+
+  [handler_streamHandler]
+  class=StreamHandler
+  level=DEBUG
+  args=(sys.stdout,)
+  formatter=drpyFormatter
