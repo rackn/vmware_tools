@@ -1,7 +1,8 @@
+import asyncio
 import copy
 import logging
-import time
 
+from drpy.api import wsclient
 from drpy.exceptions import DRPException
 from drpy.fsm.states.base import BaseState
 from drpy.fsm.states.power import Exit, Reboot
@@ -35,7 +36,13 @@ class WaitRunnable(BaseState):
         if machine.CurrentTask >= len(machine.Tasks):
             if agent_state.runner:
                 return Exit(), agent_state
-            time.sleep(3)
+            loop = asyncio.get_event_loop()
+            loop.run_until_complete(
+                wsclient.wait_for_update(token=agent_state.config.token,
+                                         uri=agent_state.config.endpoint,
+                                         machine=agent_state.machine.Uuid
+                                         )
+            )
             return WaitRunnable(), agent_state
         if machine.Runnable:
             logging.debug("Machine Runnable. Checking context. {}".format(
@@ -43,5 +50,11 @@ class WaitRunnable(BaseState):
             if machine.Context == "":
                 from drpy.fsm.states.runtask import RunTask
                 return RunTask(), agent_state
-        time.sleep(3)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(
+            wsclient.wait_for_update(token=agent_state.config.token,
+                                     uri=agent_state.config.endpoint,
+                                     machine=agent_state.machine.Uuid
+                                     )
+        )
         return WaitRunnable(), agent_state

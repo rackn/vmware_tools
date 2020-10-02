@@ -1,1 +1,2 @@
 jsonpatch
+websockets==7.0
