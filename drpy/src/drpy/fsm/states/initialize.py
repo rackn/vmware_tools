@@ -55,7 +55,8 @@ class Initialize(BaseState):
                 logger.debug(e.message)
                 logger.debug("Current Job is not present: {}".format(
                     agent_state.machine.CurrentJob))
-
+        logger.debug("Setting Etag back to 0 from Initialize -> WaitRunnable")
+        agent_state.client.machine_etag_header = {'If-None-Match': 0}
         return WaitRunnable(), agent_state
 
     def _set_job_running(self, agent_state=None):

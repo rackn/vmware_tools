@@ -80,8 +80,10 @@ class BaseState(abc.ABC):
 
     def _get_machine(self, agent_state=None, machine_uuid=None):
         if machine_uuid is None:
+            logger.debug("machine_uuid was none.")
             machine_uuid = agent_state.machine.Uuid
         try:
+            logger.debug("Making base request to fetch machine.")
             machine_obj = agent_state.client.get(resource="machines/{}".format(
                 machine_uuid
             ))

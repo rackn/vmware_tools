@@ -25,7 +25,8 @@ def main():
     logger.debug("Starting up agent")
     drpclient = Client(
         endpoint=conf.endpoint,
-        token=conf.token
+        token=conf.token,
+        wait_time=conf.machine_wait
     )
     agent_state = AgentState(
         client=drpclient,

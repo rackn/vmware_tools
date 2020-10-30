@@ -19,7 +19,8 @@ def test_asdict():
         'token': tok,
         'machine_uuid': uid,
         'command_path': None,
-        'command_timeout': None
+        'command_timeout': None,
+        'machine_wait': 'wait=10m'
     }
     assert conf_dict == expected
 
