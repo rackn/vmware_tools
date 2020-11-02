@@ -10,10 +10,18 @@ Config = namedtuple("Config", [
     "token",
     "machine_uuid",
     "command_timeout",
-    "command_path"
+    "command_path",
+    "machine_wait"
 ])
 
-Config.__new__.__defaults__ = (None, None, None, None, None)
+Config.__new__.__defaults__ = (
+    None,
+    None,
+    None,
+    None,
+    None,
+    "wait=10m"
+)
 
 
 class ConfigException(Exception):
@@ -37,7 +45,13 @@ def parse(conf_file=None):
             ep = conf_dict['endpoint']
             tkn = conf_dict['token']
             m_uuid = conf_dict['machine_uuid']
-            return Config(endpoint=ep, token=tkn, machine_uuid=m_uuid)
+            mw = conf_dict.get("machine_wait", "wait=10m")
+            return Config(
+                endpoint=ep,
+                token=tkn,
+                machine_uuid=m_uuid,
+                machine_wait=mw
+            )
         else:
             raise ConfigException('{} missing [Config] section.'.format(
                 conf_file))

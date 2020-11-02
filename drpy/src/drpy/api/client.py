@@ -13,7 +13,7 @@ from drpy import logger
 class Client:
     """Basic api client for drp api"""
 
-    def __init__(self, endpoint=None, token=None, insecure=True):
+    def __init__(self, endpoint=None, token=None, insecure=True, **kwargs):
         """
         Initialize a new Client to use to talk to the drp api
 
@@ -36,13 +36,19 @@ class Client:
         if self.insecure:
             self.context = self.setup_insecure()
         self.headers = {
-            "User-Agent": "drpy v{} (https://github.com/rackn/drpy)".format(
-                __version__
+            "User-Agent": "drpy v{0} ({1})".format(
+                __version__,
+                "https://github.com/rackn/vmware_tools/tree/master/drpy"
             ),
             "Accept": "application/json"
         }
         if token is not None:
             self.setup_token_auth(token)
+
+        self.machine_etag_header = {'If-None-Match': 0}
+        self.longpoll_wait_header = {'Prefer': kwargs.get(
+            "wait_time", "wait=10m")
+        }
 
     def setup_token_auth(self, token):
         """
@@ -107,21 +113,50 @@ class Client:
         :param resource: An API resource like: info, objects, machines, etc..
         :return:
         """
+        h = {**self.headers}
+        if "machines" in resource:
+            h.update(self.longpoll_wait_header)
+            h.update(self.machine_etag_header)
         url = self.endpoint + "/{}".format(resource)
-        r = urllib.request.Request(url, headers=self.headers)
+        logger.debug("Request resource: {}".format(resource))
+        logger.debug("Request headers: {}".format(h))
+        r = urllib.request.Request(url, headers=h)
         retry_count = 0
         while retry_count < 31536000:
             try:
+                logger.debug("Trying to open request.")
                 res = urllib.request.urlopen(r, context=self.context)
                 data = res.read().decode('utf-8')
                 json_obj = json.loads(data)
+                if "machines" in resource:
+                    logger.debug(
+                        "Made a machine call. Updating Etag ID from {}".format(
+                            self.machine_etag_header.get("If-None-Match")
+                        )
+                    )
+                    res_headers = dict(res.getheaders())
+                    self.machine_etag_header.update(
+                        {'If-None-Match': res_headers.get('Etag')}
+                    )
+                    logger.debug("Updated machine_etag to: {}".format(
+                        res_headers.get('Etag'))
+                    )
                 return json_obj
+            except urllib.error.HTTPError as e:
+                if e.code == 304:
+                    pass
+                if e.code > 399:
+                    logger.debug("Got error from remote endpoint: {}".format(
+                        e.code
+                    ))
+                    logger.exception(e)
+                    retry_count += 1
             except (urllib.error.URLError, RemoteDisconnected) as e:
                 logger.debug("Failed to fetch resource: {}".format(
                     resource))
                 logger.exception(e)
                 time.sleep(5)
-                retry_count = retry_count + 1
+                retry_count += 1
                 saved_error = e
         raise saved_error
 

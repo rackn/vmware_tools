@@ -2,7 +2,7 @@
 
 
 git checkout -- firewall/stage/descriptor.xml
-git checkout -- drpy/stage/descriptor.xml
+#git checkout -- drpy/stage/descriptor.xml
 
 export TRAVIS_BUILD_DIR=`pwd`
 cd drpy

@@ -75,6 +75,8 @@ class RunTask(BaseState):
         logger.debug("POSTing {}".format(
             job.__dict__
         ))
+        logger.debug("Resetting Machine Etag to 0.")
+        agent_state.client.machine_etag_header = {'If-None-Match': 0}
         j_obj = agent_state.client.post_job(payload=job.__dict__)  # type: dict
         if "Error" in j_obj:
             logger.error("Error in j_obj for create_job. {}".format(
