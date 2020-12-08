@@ -3,11 +3,10 @@ import json
 import ssl
 import time
 import urllib.request
-
 from http.client import RemoteDisconnected
 
-from drpy.api import __version__
 from drpy import logger
+from drpy.api import __version__
 
 
 class Client:
@@ -142,6 +141,8 @@ class Client:
                         res_headers.get('Etag'))
                     )
                 return json_obj
+            except json.decoder.JSONDecodeError:
+                return data
             except urllib.error.HTTPError as e:
                 if e.code == 304:
                     pass
@@ -241,7 +242,7 @@ class Client:
 
     def put_job_log(self, job=None, log_msg=None):
         """
-        POST a log message to DRP about a given job.
+        PUT a log message to DRP about a given job.
 
         :type job: Job
         :param job:
@@ -270,3 +271,46 @@ class Client:
         except urllib.error.HTTPError:
             return False
         return False
+
+    def post(self, resource=None, payload=None, **kwargs):
+        """
+
+        :param resource:
+        :param payload:
+        :param kwargs:
+        :return:
+        """
+        resource = self.endpoint + "/{}".format(resource)
+        if payload is None:
+            raise ValueError("payload can not be None type.")
+        payload = json.dumps(payload)
+        jsonbytes = payload.encode('utf-8')
+        headers = self.headers
+        headers.update({"Content-Type": "application/json; charset=utf-8"})
+        r = urllib.request.Request(resource, data=jsonbytes, headers=headers,
+                                   method="POST")
+        try:
+            res = urllib.request.urlopen(r, context=self.context)
+            logger.debug("POST {} Response: {} {}".format(
+                resource,
+                res.status,
+                res.msg
+            ))
+            if res.status < 299:
+                data = res.read().decode('utf-8')
+                json_obj = json.loads(data)
+                return json_obj
+        except urllib.error.HTTPError as res:
+            j_err = res.read().decode('utf-8')
+            jobj = json.loads(j_err)
+            ermsg = "Error in POST: {}\nPayload: {}\nHeaders: {}\nResponse: {}"
+            logger.debug(ermsg.format(
+                resource,
+                jsonbytes,
+                headers,
+                jobj
+            ))
+            logger.exception(res)
+            return {'Error': jobj}
+        except RemoteDisconnected as res:
+            return {'Error': res.code}
