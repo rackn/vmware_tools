@@ -35,6 +35,10 @@ case "$1" in
         fi
         echo "Starting $name"
         cd "$dir"
+        if [ -f /vmfs/volumes/BOOTBANK2/curtin/drpy.conf ] ; then
+            cp /vmfs/volumes/BOOTBANK2/curtin/drpy.conf "${DS_PATH}/rackn/drpy.conf"
+            rm -f /vmfs/volumes/BOOTBANK2/curtin/drpy.conf
+        fi
         if [ -f "${DS_PATH}/rackn/drpy.conf" ]; then
             $cmd &
             echo $! > "$pid_file"
