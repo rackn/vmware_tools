@@ -5,6 +5,7 @@ class Namespace(dict):
         Init the namespace object
         :param kwargs: Keyword args
         """
+        self.attrs.append("Error")
         for attr in self.attrs:
             setattr(self, attr, kwargs.get(attr))
 

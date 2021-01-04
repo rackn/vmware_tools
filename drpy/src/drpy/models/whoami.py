@@ -1,0 +1,28 @@
+from drpy.models.base import Namespace
+
+
+class WhoAmI(Namespace):
+    """
+    Example payload:
+    {
+        'Fingerprint': {
+            'MemoryIds': None,
+            'SystemUUID': '',
+            'SSNHash': None,
+            'CSNHash': None
+        },
+        'OnDiskUUID': '',
+        'MacAddrs': ['6c:0b:84:a5:d7:9c'],
+        'Result': {
+            'Token': 'zfwKeYUBTNroZ78hPobJwPZ0dzzuUGbpmtgW87cEgMXVHIcGGhZXLxmPofWI5Kd3YkXrtCBYIvLQ8Vr6HFc3vqYDAuu6dFiSLe9fHFDajTtxP6RKx6Hwj-X5vskD3Wj1X4_QLT_0hOFw-4SJF8T9COFb0d3zLk0-jLfzMth2CY8Skqa1wHZ0mcrQ1nmw8qPPkfCfYH06iT_8wTh2bpuFUVWMsQU91NceYJsXNqb9vPvUZWLDl2pxfuDliJZr7edNQNKL4_SfqiL5dM3kP9mUCSFAacCi0ANO-jRDJHdXzbQ9SrTtg594HLqxYgSU3Hk5TWt4DvwNShiX5mjgChhMFG9paQoPctXGIxXW_vpBov6uYl4dIswzZlDi24HLi3seEPWjG_aHp689GrJdHk9GNUtLU5oeD0PZPkMvWsn_m4hulwJ0WNrRTx8bsKBnUhCn6aJ9T3w8RNlliwwbP7DtszF3kVHZAQHohvXV-BDvIScJuO2DYHjjqEB7LEmfZF2ByYH_y3qugvpr669yXIfSA7DYm6tyL1M7TTDZgoyWXGkZzvA70SZEAtTvkMA9Dfsa5XCC-nNToT3IXP2A6jP9vVzLlonB6Md8Ec-hGp2CPY1F4PQCABzeNe5WQCKfnAYtVhis44vwryTxmzdeJr5za7FOJjXTmFugkyyWpRKoimBKRBPUrTzEYJPbRoflcqS_SQKEMABa65E_Ybs80ShshE8rJR0YSKQkq0dj_lrv55w2fDsAsM4sNys8a4mIqFVixOQm8Wio6NGa5b3lgyT0G5AoDULKy7Yh7bU0Mxj5i0vx2uDVMOw5DkAG8VWes3OJmjUPa1kC_39pu6SYVsQeO7TXgF1cN89LbC1zWEE9pevcFb6M1C6xsEb9DKm-d3FTDm1UeEUZVsHtApIxLzF0IkbVetWcoM5xz9P0FYWfwRFbb9SR7uH6aBC1boitkzUVNOkCSiiJseWE0CKOKcDOhse3KpOkLKIRtuZkJYniV88FXsIdS2h46tEZes-DKmrrahWiZ01h2WMbFq1mqhG81nWqJpliMFdJnifmFH0OzXip2z5wwB8lPq69MDqY04GPu9rAYoGCe16CxgWTImDHnU07eZa14meNdQQfQRgA8mOL8DWxNgGRcJz4avlSZwEfWYGv452p3wLLytp7XR3lCgjWfOm3y-0qYsLS80NX7CZWDQmfaMAa4RGWjWnx50BEwqdXKHKkO5qyTB1yExXsugFwNvtgrM2yQiU9YY7HughukE9-Qp8TDz6t8EzxSCBFytUiPfURMGDSZSNxCZQZ2hOfZ9fU6X_-k-A6pvHF2wpQDfW4tSSGqZvaMY6qkNT-_9d8KObaWjtrC3XAHITnUFwJg6Mi4QPcYFPdND1gFLDPfh5unMANe18sFbDJgkxSg7aSoA7C1HaWHGvrvouDIE6qHT2HQqEc_hmSF5UyvSzFhFSL7smB1VTWuceWR4yeN_QRH0GL68ioApk4BlGDLXI1mNxGIxmBwidtqp9IC1z1m8u5IYkgj1eggzI4pt84f2aOwvkRwJPLv5KaksD78nIc3qqzIYTGnpj6OLGmJDib86e1uItay2Hn07_LFiSWXPhLYeHKsW7g1_oGeVWQwGnmbiiqzsmtf2RFo_RlFeOijc-lCFNddPMxZ1FZNygRY8uBo-dyqPvVxCaIJTSoHQ1-NMPVmx8ZFcjmgxmXlLeZOGSmh7nd-G35o4Uti5jRZ89NpSl4X-iHOShjlibOf0cKhar6o_t7cg8Iyw0rqqENFoqBGbbPJ7j7-wxkXo_SGkgwKSkEfCHVjGQ83mBv-fnd7sI5tDSGMswFG9AGX0aV6BEdhhRbwNimHUVkVtDM37hTKqNtG3p9Y5if_KGnFkkIGYP6qD5K-c2iBGyE2ord2Lxb28GLM8CguQnIQ0DbXDb4ff6PQDicXwEdLc2hRV2KbLVpsitv9b4hLozAHL6For2IX0b6s8xa0JMvsfJtUkdwV7TNxp6_NSsIomnVzIbBLa8mRm2RqHApqa3ICcjdDt1OsGtJCDAXqNK7xRDYbhDHxFqH-SkkKWRdNdW1_a5iJzfEddwdmzunC2gIkbVaCngZNFSm5scYHu_JOINt0s07bqUHMSATOM2xfIHBW9jiIO5L945yI74J2oZGEPpaWPE7J0Al1fg7O6gl3rjwiXZkRNpK9Lt9s076FNZCt1h0d6uroNiBB_jAgfqSm3CuuE0WTSg7lTcYp4iYcTdEuEEeMw5ShgHd2gCW6hQ-w5iSQ-Z6R8_Cyo1HqI7qf87H7EgK1HS6FqGxPc-z0M8amddafZIvdD5W2LseG_YKDyj-2JeyvBWwM_N4uHL1Kmc8s-5CDORgwwmILMkASZdeldcdpm66jwpWZPfPKf8dy5SmNG5fhhoL7_WdsyTHNcw5NkcH_08PYARXE7XRBoR_6s5uMYoX2jLXLG4kqQ5RGMda4YXp38Bo5d2lPhcmkklC6Tv1HVch00PoO7CtzJ-cuXkbVGUjzeHChb04a84ihV1wz3q3saPJhl2oRP6EfsisTNuZamfcA7TSBhYPcrKR5SF3jW4SjeHqULYYHnPoa05bn3fNby-jsScqFkKOevrqkVYS7A5EMElEEqKJTis1TTY4qQcFQTHTKvnZl-W6k98beYpWUATC5MjIBNpSKMzfskW-MkvgpVTs3vZrSfurkfDnPw5lEQG3aWc6skZ0AU4UR3jfCb-DjohHVZXHThq9AtDoenZtHrCQp0mE6T5rYJS1IsjoPXPH6Wt3COqsw0ooe332IITWZqLmBsxUY91-nrFJD54gGyJTqoVeBbTNQDJRxrFCYa-ElEobVw==', # noqa: E501
+            'Score': 100,
+            'Uuid': '2e11a188-f386-46ac-b5c2-3864a23654c2'
+        }
+    }
+    """
+    attrs = [
+        "Fingerprint",
+        "OnDiskUUID",
+        "MacAddrs",
+        "Result"
+    ]
