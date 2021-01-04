@@ -36,13 +36,24 @@ case "$1" in
         echo "Starting $name"
         cd "$dir"
         if [ -f /vmfs/volumes/BOOTBANK2/curtin/drpy.conf ] ; then
+            mkdir -p "${DS_PATH}/rackn"
             cp /vmfs/volumes/BOOTBANK2/curtin/drpy.conf "${DS_PATH}/rackn/drpy.conf"
             rm -f /vmfs/volumes/BOOTBANK2/curtin/drpy.conf
+        fi
+        if [ -f /vmfs/volumes/BOOTBANK1/curtin/drpy.conf ] ; then
+            mkdir -p "${DS_PATH}/rackn"
+            cp /vmfs/volumes/BOOTBANK1/curtin/drpy.conf "${DS_PATH}/rackn/drpy.conf"
+            rm -f /vmfs/volumes/BOOTBANK1/curtin/drpy.conf
         fi
         if [ -f /vmfs/volumes/BOOTBANK2/curtin/network-startup.sh ] ; then
             chmod +x /vmfs/volumes/BOOTBANK2/curtin/network-startup.sh
             /vmfs/volumes/BOOTBANK2/curtin/network-startup.sh
             rm -f /vmfs/volumes/BOOTBANK2/curtin/network-startup.sh
+        fi
+        if [ -f /vmfs/volumes/BOOTBANK1/curtin/network-startup.sh ] ; then
+            chmod +x /vmfs/volumes/BOOTBANK1/curtin/network-startup.sh
+            /vmfs/volumes/BOOTBANK1/curtin/network-startup.sh
+            rm -f /vmfs/volumes/BOOTBANK1/curtin/network-startup.sh
         fi
         if [ -f "${DS_PATH}/rackn/drpy.conf" ]; then
             $cmd &
