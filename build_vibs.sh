@@ -6,8 +6,18 @@ git checkout -- firewall/stage/descriptor.xml
 
 export TRAVIS_BUILD_DIR=`pwd`
 cd drpy
+
+if [[ -d $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/etc ]]; then
+    rm -rf rm -rf $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/etc
+fi
+
 ./build.sh $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/opt/rackn/drpy
-#cp -a $TRAVIS_BUILD_DIR/drpy/etc $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/
+
+if [[ $1 = "rkn" ]]; then
+    echo "adding init script"
+    cp -a $TRAVIS_BUILD_DIR/drpy/etc $TRAVIS_BUILD_DIR/drpy/stage/payloads/drpy/
+fi
+
 cd $TRAVIS_BUILD_DIR
 ./build_tools/set_version.sh drpy/stage/descriptor.xml
 ./build_tools/set_version.sh firewall/stage/descriptor.xml

@@ -8,7 +8,7 @@ from http.client import RemoteDisconnected
 
 import jsonpatch
 
-from drpy.exceptions import DRPException
+from drpy.exceptions import DRPException, DRPExitException
 from drpy.models.job import Job
 from drpy.fsm import logger
 from drpy.models.machine import Machine
@@ -88,6 +88,12 @@ class BaseState(abc.ABC):
                 machine_uuid
             ))
             return Machine(**machine_obj)
+        except DRPExitException:
+            logger.info("An error has been caught that drpy can not recover "
+                        "from.")
+            logger.info("drpy is now exiting. Please check the logs for a "
+                        "solution. Or contact support@rackn.com for help.")
+            raise DRPExitException
         except (urllib.error.URLError, RemoteDisconnected) as e:
             logger.error("Failed to get Machine object {}".format(
                 machine_uuid), e)

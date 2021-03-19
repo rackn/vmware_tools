@@ -15,7 +15,7 @@
 name=`basename $0`
 dir="/opt/rackn/drpy"
 pid_file="$dir/$name.pid"
-DS_PATH=$(localcli --formatter json storage filesystem list|python -c "import sys,json;x=json.load(sys.stdin);y=[i for i in x if i['Type']=='VFFS' or 'vmfs' in i['Type'].lower()];print(y[0]['Mount Point'])")
+DS_PATH=$(localcli --formatter json storage filesystem list| python -c "import sys,json,os;x=json.load(sys.stdin);y=[i for i in x if 'vfat' in i['Type'].lower()];f=[j['Mount Point'] for j in y];x=[cf for cf in f if os.path.isfile(cf + '/rackn/drpy.conf')];print(x[len(x)-1])")
 cmd="python agent -f ${DS_PATH}/rackn/drpy.conf"
 
 
