@@ -30,7 +30,7 @@ Config.__new__.__defaults__ = (
     "wait=10m",
     "60",
     None,
-    False
+    True
 )
 
 
