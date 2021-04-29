@@ -20,7 +20,10 @@ def test_asdict():
         'machine_uuid': uid,
         'command_path': None,
         'command_timeout': None,
-        'machine_wait': 'wait=10m'
+        'machine_wait': 'wait=10m',
+        'duration': '60',
+        'last_updated': None,
+        'never_update_token': False
     }
     assert conf_dict == expected
 

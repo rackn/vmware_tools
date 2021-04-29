@@ -1,6 +1,8 @@
 import copy
 
+from drpy.exceptions import DRPExitException
 from drpy.fsm.states.base import BaseState
+from drpy.fsm.states.power import Exit
 from drpy.fsm.states.waitrunnable import WaitRunnable
 
 
@@ -15,10 +17,13 @@ class Initialize(BaseState):
         logger.debug("Fetching machine: {}".format(
             machine_uuid
         ))
-        agent_state.machine = self._get_machine(
-            agent_state=agent_state,
-            machine_uuid=machine_uuid
-        )
+        try:
+            agent_state.machine = self._get_machine(
+                agent_state=agent_state,
+                machine_uuid=machine_uuid
+            )
+        except DRPExitException:
+            return Exit(), agent_state
         logger.debug("Retrieved machine: {}-{}".format(
             agent_state.machine.Name,
             agent_state.machine.Uuid

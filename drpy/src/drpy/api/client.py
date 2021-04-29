@@ -7,6 +7,7 @@ from http.client import RemoteDisconnected
 
 from drpy import logger
 from drpy.api import __version__
+from drpy.exceptions import DRPExitException
 
 
 class Client:
@@ -122,9 +123,16 @@ class Client:
         r = urllib.request.Request(url, headers=h)
         retry_count = 0
         while retry_count < 31536000:
+            logger.debug("Current retry_count {}".format(retry_count))
+            if retry_count > 0:
+                # ty to not flood the server to death
+                logger.debug("Inside the count. {}".format(retry_count))
+                time.sleep(2)
             try:
-                logger.debug("Trying to open request.")
+                logger.debug("Trying to open request to resource: {}".format(
+                    resource))
                 res = urllib.request.urlopen(r, context=self.context)
+                logger.debug("Response from server {}".format(res))
                 data = res.read().decode('utf-8')
                 json_obj = json.loads(data)
                 if "machines" in resource:
@@ -145,7 +153,30 @@ class Client:
                 return data
             except urllib.error.HTTPError as e:
                 if e.code == 304:
+                    # expected status for the Prefer timeout
+                    # do not bump the retry count here
                     pass
+                if e.code == 404:
+                    logger.info("Requested resource not found. {}".format(
+                        resource)
+                    )
+                    error = e.read().decode('utf-8')
+                    obj = json.loads(error)
+                    logger.debug("Response payload: {}".format(obj))
+                    if "machines" in resource:
+                        msg = "The machine ID has changed from the value "
+                        msg += "stored in the config. This was caused by "
+                        msg += "human error. The most likely cause was "
+                        msg += "removing the machine from drp and adding it "
+                        msg += "back some how. Please see KB 00065 "
+                        msg += "or contact support@rackn.com for more "
+                        msg += "assistance."
+                        logger.info(msg)
+                        raise DRPExitException
+                    retry_count += 1
+                if e.code == 403:
+                    logger.debug("Token expired.")
+                    raise DRPExitException
                 if e.code > 399:
                     logger.debug("Got error from remote endpoint: {}".format(
                         e.code
