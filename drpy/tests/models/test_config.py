@@ -23,7 +23,7 @@ def test_asdict():
         'machine_wait': 'wait=10m',
         'duration': '60',
         'last_updated': None,
-        'never_update_token': False
+        'never_update_token': True
     }
     assert conf_dict == expected
 

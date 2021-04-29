@@ -58,7 +58,7 @@ def parse(conf_file=None):
             mw = conf_dict.get("machine_wait", "wait=10m")
             dur = conf_dict.get("duration", "60")
             las = datetime.datetime.now()
-            up_tok = conf_dict.get("never_update_token", False)
+            up_tok = conf_dict.get("never_update_token", True)
             return Config(
                 endpoint=ep,
                 token=tkn,
